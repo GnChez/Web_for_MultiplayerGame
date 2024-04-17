@@ -3,7 +3,7 @@ require('dotenv').config();
 const sessionMiddleware = session({
     secret: 'mySecretKey',
     resave: true,
-    name: "mathGame",
+    name: "puzzleGame",
     saveUninitialized: true,
     cookie: {
         secure: false,

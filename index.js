@@ -1,20 +1,15 @@
 const express = require('express');
 const http = require('http');
-const sessionMiddleware = require('./sessionMiddleware.js');
+const sessionMiddleware = require('./source/middlewares/session.middleware.js');
+const corsOptions = require('./source/middlewares/cors.middleware.js');
+const usersRouter = require('./source/routes/users.route');
 const mysqlConnection = require('./mySQL.js');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 require('dotenv').config();
 
-const corsOptions = {
-  origin: ["http://localhost:3000", "https://math-thai.dam.inspedralbes.cat"],
-  credentials: true,
-  methods: ['GET', 'POST', 'DELETE'],
-  exposedHeaders: ['set-cookie', 'ajax-redirect'],
-  preflightContinue: true,
-  optionsSuccessStatus: 200,
-};
+
 
 const app = express();
 app.use(sessionMiddleware);
@@ -36,7 +31,7 @@ app.get('/', (req, res) => {
   res.json(response);
 });
 
-
+app.use('/users', usersRouter);
 
 //
 //

@@ -3,7 +3,8 @@ const http = require('http');
 const sessionMiddleware = require('./source/middlewares/session.middleware.js');
 const corsOptions = require('./source/middlewares/cors.middleware.js');
 const usersRouter = require('./source/routes/users.route');
-const mysqlConnection = require('./mySQL.js');
+const matchRouter = require('./source/routes/match.route');
+const stagesRouter = require('./source/routes/stages.route');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require("cors");
@@ -32,6 +33,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', usersRouter);
+
+app.use('/match', matchRouter);
+
+app.use('/stages', stagesRouter);
 
 //
 //

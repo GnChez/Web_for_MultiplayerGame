@@ -1,5 +1,7 @@
 const mysql = require("mysql2");
 const dbConfig = require("../configs/db.config.js");
+const { getStageFromId } = require("../controllers/stages.controller.js");
+const { getMatchFromId } = require("../controllers/match.controller.js");
 
 const pool = mysql.createPool({
   connectionLimit: 100, // Número máximo de conexiones en el pool
@@ -9,12 +11,12 @@ const pool = mysql.createPool({
   database: "a22osczapmar_puzzleGame",
 });
 
-async function getUsers(req, res, next) {
+async function getMatchStageData(req, res, next) {
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
-    connection.query("SELECT * FROM user", (errorQuery, results) => {
+    connection.query("SELECT * FROM MATCH_STAGE", (errorQuery, results) => {
       connection.release(); // Always release connection whether there's an error or not
       if (errorQuery) {
         return next(errorQuery); // Send the error to the next error-handling middleware
@@ -23,149 +25,132 @@ async function getUsers(req, res, next) {
     });
   });
 }
-async function getUserById(req, res, next) {
-  const userId = req.params.id;
+async function getMatchStageDataByMatchId(req, res, next) {
+  const matchId = req.params.id;
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error); // Handle the error in an Express error-handling middleware
+    }
+    connection.query(
+      "SELECT * FROM MATCH_STAGE WHERE id_match = ?",
+      [matchId],
+      (errorQuery, results) => {
+        connection.release(); // Always release connection whether there's an error or not
+        if (errorQuery) {
+          return next(errorQuery); // Send the error to the next error-handling middleware
+        }
+        res.json(results); // Send the results back to the client as JSON
+      }
+    );
+  });
+}
+async function getMatchStageDataByStageId(req, res, next) {
+  const stageId = req.params.id;
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error); // Handle the error in an Express error-handling middleware
+    }
+    connection.query(
+      "SELECT * FROM MATCH_STAGE WHERE id_stage = ?",
+      [stageId],
+      (errorQuery, results) => {
+        connection.release(); // Always release connection whether there's an error or not
+        if (errorQuery) {
+          return next(errorQuery); // Send the error to the next error-handling middleware
+        }
+        res.json(results); // Send the results back to the client as JSON
+      }
+    );
+  });
+}
+
+async function enterStage(req, res, next) {
+  let data = req.body;
+  let stageStartTime = new Date();
+  stageStartTime.setHours(stageStartTime.getHours() + 2);
+  let formattedDate = stageStartTime
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
+
   try {
-    const results = await getUserFromId(userId);
-    if (results.length === 0) {
-      res.status(404).send({ msg: "User not found" });
-    } else {
-      res.json(results[0]); // Assuming 'id' is unique, there should only be one result
+    const match = await getMatchFromId(data.id_match);
+    const stage = await getStageFromId(data.id_stage);
+    if (match.length == 0 || stage.length == 0) {
+      return res
+        .status(404)
+        .json({ message: "One or both foreign keys don't exist" });
     }
-  } catch (error) {
-    next(error); // Pass any errors to the Express error-handling middleware
-  }
-}
-async function getUsernames(req, res, next) {
-  pool.getConnection((error, connection) => {
-    if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
-    }
-    connection.query("SELECT username FROM user", (errorQuery, results) => {
-      connection.release(); // Always release connection whether there's an error or not
-      if (errorQuery) {
-        return next(errorQuery); // Send the error to the next error-handling middleware
-      }
-      res.json(results); // Send the results back to the client as JSON
-    });
-  });
-}
-
-async function insertUser(req, res, next) {
-  let user = req.body;
-  pool.getConnection((error, connection) => {
-    if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
-    }
-    connection.query(
-      `INSERT INTO user (username, password) VALUES (?, ?)`,
-      [user.username, user.password],
-      (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        res.json(results); // Send the results back to the client as JSON
-      }
-    );
-  });
-}
-
-async function updateUser(req, res, next) {
-  let id = req.params.id;
-  let user = req.body;
-  pool.getConnection((error, connection) => {
-    if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
-    }
-    connection.query(
-      `UPDATE user SET username=?, password=? WHERE id=?`,
-      [user.username, user.password, id],
-      (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        res.json(results); // Send the results back to the client as JSON
-      }
-    );
-  });
-}
-
-async function deleteUser(req, res, next) {
-  let id = req.params.id;
-  pool.getConnection((error, connection) => {
-    if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
-    }
-    connection.query(
-      `DELETE FROM user WHERE id=?`,
-      id,
-      (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        res.json(results); // Send the results back to the client as JSON
-      }
-    );
-  });
-}
-
-async function login(req, res, next) {
-  let user = req.body;
-  pool.getConnection((error, connection) => {
-    if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
-    }
-    connection.query(
-      `SELECT * FROM user WHERE username=? AND password=?`,
-      [user.username, user.password],
-      (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        if (results.length > 0) {
-          res.json({ msg: "Login Success" });
-        } else {
-          res.json({ msg: "Login Failed" });
-        }
-      }
-    );
-  });
-}
-
-async function getUserFromId(id) {
-  return new Promise((resolve, reject) => {
     pool.getConnection((error, connection) => {
       if (error) {
-        reject(error); // Reject the promise with the error
-        return;
+        return next(error); 
       }
+
       connection.query(
-        "SELECT * FROM user WHERE id = ?",
-        [id],
+        `INSERT INTO MATCH_STAGE (start_time, id_match, id_stage) VALUES (?, ?, ?)`,
+        [formattedDate, data.id_match, data.id_stage],
         (errorQuery, results) => {
-          connection.release(); // Always release connection whether there's an error or not
+          connection.release();
           if (errorQuery) {
-            reject(errorQuery); // Reject the promise with the query error
-          } else {
-            resolve(results); // Resolve the promise with the query results
+            return next(errorQuery);
           }
+          res.json(results); 
         }
       );
     });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function endStage(req, res, next) {
+  let data = req.body;
+  let stageEndTime = new Date();
+  stageEndTime.setHours(stageEndTime.getHours() + 2);
+  let formattedDate = stageEndTime.toISOString().slice(0, 19).replace("T", " ");
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error); // Handle the error in an Express error-handling middleware
+    }
+    connection.query(
+      `UPDATE MATCH_STAGE SET end_time=? WHERE (id_match=? AND id_stage=?)`,
+      [formattedDate, data.id_match, data.id_stage],
+      (errorQuery, results) => {
+        connection.release(); // Always release connection whether there's an error or not
+        if (errorQuery) {
+          return next(errorQuery); // Send the error to the next error-handling middleware
+        }
+        res.json(results); // Send the results back to the client as JSON
+      }
+    );
+  });
+}
+
+async function deleteStageMatch(req, res, next) {
+  let data = req.body;
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error); // Handle the error in an Express error-handling middleware
+    }
+    connection.query(
+      `DELETE FROM MATCH_STAGE WHERE (id_match=? AND id_stage=?)`,
+      [data.id_match, data.id_stage],
+      (errorQuery, results) => {
+        connection.release(); // Always release connection whether there's an error or not
+        if (errorQuery) {
+          return next(errorQuery); // Send the error to the next error-handling middleware
+        }
+        res.json(results); // Send the results back to the client as JSON
+      }
+    );
   });
 }
 
 module.exports = {
-  getUsers,
-  getUserById,
-  getUserFromId,
-  getUsernames,
-  login,
-  insertUser,
-  updateUser,
-  deleteUser,
+  getMatchStageData,
+  getMatchStageDataByMatchId,
+  getMatchStageDataByStageId,
+  enterStage,
+  endStage,
+  deleteStageMatch,
 };

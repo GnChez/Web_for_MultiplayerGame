@@ -5,11 +5,13 @@ const stagesController = require('../controllers/stages.controller.js');
 
 router.get('/getStages',stagesController.getStages);
 router.get('/getStageById/:id',stagesController.getStageById);
+router.get('/getStageRooms/:id',stagesController.getStageRooms);
 router.post('/createStage',stagesController.createStage);
-router.put('/updateStage/:id',stagesController.updateStage);
-router.put('/playStage/:id',stagesController.playStage);  
-router.put('/completeStage/:id',stagesController.completeStage); 
+router.post('/updateStage/:id',stagesController.updateStage);
+router.post('/playStage/:id',stagesController.playStage);  
+router.post('/completeStage/:id',stagesController.completeStage); 
 router.delete('/deleteStage/:id',stagesController.deleteStage);
+
 
 
 

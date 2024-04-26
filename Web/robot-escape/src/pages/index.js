@@ -4,8 +4,8 @@ export default function Page() {
     return (
         <div>
             <h1>Hello, Next.js!</h1>
-            <Link legacyBehavior href="/about"> 
-                <a>About</a>
+            <Link legacyBehavior href="/register"> 
+                <a>Register</a>
             </Link>
         </div>
     );

@@ -58,8 +58,8 @@ async function insertUser(req, res, next) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
     connection.query(
-      `INSERT INTO user (username, password) VALUES (?, ?)`,
-      [user.username, user.password],
+      `INSERT INTO user (email, username, password, name, surname) VALUES (?, ?, ?, ?, ?)`,
+      [user.email, user.username, user.password, user.name, user.surname],
       (errorQuery, results) => {
         connection.release(); // Always release connection whether there's an error or not
         if (errorQuery) {
@@ -119,18 +119,18 @@ async function login(req, res, next) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
     connection.query(
-      `SELECT * FROM user WHERE username=? AND password=?`,
-      [user.username, user.password],
+      `SELECT * FROM user WHERE (username=? OR email=?) AND password=?`,
+      [user.email, user.email, user.password],
       (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        if (results.length > 0) {
-          res.json({ msg: "Login Success" });
-        } else {
-          res.json({ msg: "Login Failed" });
-        }
+      connection.release(); // Always release connection whether there's an error or not
+      if (errorQuery) {
+        return next(errorQuery); // Send the error to the next error-handling middleware
+      }
+      if (results.length > 0) {
+        res.json({ msg: "Login Success" });
+      } else {
+        res.json({ msg: "Login Failed" });
+      }
       }
     );
   });

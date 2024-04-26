@@ -3,7 +3,10 @@ const http = require('http');
 const sessionMiddleware = require('./source/middlewares/session.middleware.js');
 const corsOptions = require('./source/middlewares/cors.middleware.js');
 const usersRouter = require('./source/routes/users.route');
-const mysqlConnection = require('./mySQL.js');
+const matchRouter = require('./source/routes/match.route');
+const stagesRouter = require('./source/routes/stages.route');
+const roomsRouter = require('./source/routes/rooms.route');
+const matchStageRouter = require('./source/routes/match_stage.route');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require("cors");
@@ -27,43 +30,16 @@ server.listen(port, () => {
 
 app.get('/', (req, res) => {
   var response = {};
-  response.msg = 'Hello World!';
+  response.msg = 'Server Working!';
   res.json(response);
 });
 
 app.use('/users', usersRouter);
 
-//
-//
-//USER ENDPOINTS
-//
-//
-app.post('/login', (req, res) => {
-  var response = {};
-  if (req.body.username === 'Juan' && req.body.password === '1234') {
-    req.session.user = req.body.username;
-    response.msg = 'Login Success';
-    res.json(response);
-  } else {
-    response.msg = 'Login Failed';
-    res.json(response);
-  }
-});
-app.post('/registerUser', (req,res) => {
-  userData = req.body;
-  let check = true;
+app.use('/match', matchRouter);
 
-  mysqlConnection.getUsernames((usernames) => {
-    usernames.forEach(username => {
-      if (username.username == userData.username) {
-        check = false;
-      }
-    })
-    if (check) {
-      mysqlConnection.insertUser([userData.username,userData.password],((result) => {res.send(result)}))
-    }
-    else {
-      res.status(409).send("Mail already in use");
-    }
-  })
-})
+app.use('/stages', stagesRouter);
+
+app.use('/rooms', roomsRouter);
+
+app.use('/match_stage', matchStageRouter);

@@ -6,7 +6,7 @@ import { useAppStore } from '../stores/app.js'
 
 const requireAuth = (to, from, next) => {
   const store = useAppStore()
-  if (store.authenticated) {
+  if (store.auth) {
     next()
   } else {
     store.hasCookieId()
@@ -37,8 +37,8 @@ const routes = [
     component: () => import(/* webpackChunkName: "register" */ '@/pages/Register.vue'),
   },
   {
-    path: '/perfil',
-    name: 'Perfil',
+    path: '/profile',
+    name: 'Profile',
     component: () => import(/* webpackChunkName: "perfil" */ '@/pages/Profile.vue'),
     beforeEnter: requireAuth
   },
@@ -60,7 +60,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory('/'),
   routes
 
 })

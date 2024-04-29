@@ -235,6 +235,29 @@ async function downloadImage(req, res, next) {
       res.json({ image: SERVER_URL + ":"+port+"/imagen"+uniqueFileName+".jpg"});
 });
 }
+async function isUsernameAvailable(req, res, next) {
+  const username = req.param;
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error);
+    }
+    connection.query(
+      "SELECT * FROM user WHERE username = ?",
+      [username],
+      (errorQuery, results) => {
+        connection.release();
+        if (errorQuery) {
+          return next(errorQuery);
+        }
+        if (results.length === 0) {
+          res.json({ available: true });
+        } else {
+          res.json({ available: false });
+        }
+      }
+    );
+  });
+}
 async function getUserFromId(id) {
   return new Promise((resolve, reject) => {
     pool.getConnection((error, connection) => {
@@ -271,6 +294,7 @@ module.exports = {
   getLogin,
   logout,
   regeneratePwd,
+  isUsernameAvailable,
   downloadImage,
   insertUser,
   updateUser,

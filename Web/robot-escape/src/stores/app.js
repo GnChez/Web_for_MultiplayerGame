@@ -1,5 +1,7 @@
 // Utilities
 import { defineStore } from 'pinia'
+import {login, getLogin, endSession, loginGoogle} from '@/communicationsManager';
+
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -79,7 +81,7 @@ export const useAppStore = defineStore('app', {
     },
     hasCookieId() {
       return new Promise((resolve, reject) => {
-        hasCookieId().then((response) => response.json())
+        getLogin().then((response) => response.json())
           .then((data) => {
             this.$state.loginInfo = data;
             this.loading = false;

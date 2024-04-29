@@ -11,7 +11,10 @@
     "@mdi/font": "7.0.96",
     "@mdi/js": "^7.4.47",
     "core-js": "^3.34.0",
+    "delay": "^6.0.0",
+    "p-debounce": "^4.0.0",
     "roboto-fontface": "*",
+    "validator": "^13.11.0",
     "vue": "^3.4.0",
     "vue-picture-cropper": "^0.7.0",
     "vuetify": "^3.5.0"

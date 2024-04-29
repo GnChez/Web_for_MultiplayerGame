@@ -1,6 +1,6 @@
 
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { setupLayouts } from 'virtual:generated-layouts'
+import { createRouter, createWebHashHistory } from 'vue-router/auto'
+
 import { useAppStore } from '../stores/app.js'
 
 
@@ -60,7 +60,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHashHistory('/'),
   routes
 
 })

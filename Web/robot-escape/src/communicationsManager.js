@@ -68,4 +68,26 @@ export async function endSession() {
     return fetch(`${SERVER_URL}/logout`, { method: 'GET', credentials: 'include', mode: 'cors' });
 }
 
+export async function isUsernameAvailable(username) {
+  try {
+    const response = await fetch(`${SERVER_URL}/isUsernameAvailable/${username}`, {
+      method: 'GET',
+      credentials: 'include', 
+      mode: 'cors'            
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok.');
+    }
+    const data = await response.json();
+
+    return data.available;
+
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+    throw error;
+  }
+}
+
+
 //REGENERAR CONTRASEÑA

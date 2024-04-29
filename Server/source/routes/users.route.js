@@ -8,6 +8,7 @@ const upload = multer({ dest: 'public/avatars/' });
 router.get('/getUsers',userController.getUsers);
 router.get('/getUserById/:id',userController.getUserById);
 router.get('/getUsernames',userController.getUsernames);
+router.get('/isUsernameAvailable',userController.isUsernameAvailable);
 router.get('/getLogin', userController.getLogin);
 router.post('/login',userController.login); 
 router.post('/loginGoogle',userController.loginGoogle);   

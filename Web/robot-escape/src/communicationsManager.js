@@ -1,7 +1,7 @@
 export const SERVER_URL = "http://localhost:3666"
 
 export async function downloadImage(formData) {
-    const response = await fetch(`${SERVER_URL}/downloadImage`, {
+    const response = await fetch(`${SERVER_URL}/users/downloadImage`, {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -13,7 +13,7 @@ export async function downloadImage(formData) {
 
 export async function loginGoogle(usuario) {
 
-    return fetch(`${SERVER_URL}/loginGoogle`,
+    return fetch(`${SERVER_URL}/users/loginGoogle`,
       {
         method: 'POST',
         credentials: 'include', mode: 'cors',
@@ -26,21 +26,24 @@ export async function loginGoogle(usuario) {
 }
 
 export async function login(usuario) {
+    const response = await fetch(`${SERVER_URL}/users/login`,
+    {
+      method: 'POST',
+      credentials: 'include', mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(usuario)
+    });
+  const data = await response.json();
+  console.log(data)
+  return data;
 
-    return fetch(`${SERVER_URL}/login`,
-      {
-        method: 'POST',
-        credentials: 'include', mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(usuario)
-      });
   
 }
 
 export async function registerUser(infoUser) {
-    const response = await fetch(`${SERVER_URL}/registerUser`,
+    const response = await fetch(`${SERVER_URL}/users/registerUser`,
       {
         method: 'POST',
         credentials: 'include', mode: 'cors',
@@ -61,16 +64,16 @@ export async function registerUser(infoUser) {
 }
 
 export async function getLogin() {
-    return fetch(`${SERVER_URL}/getLogin`, { method: 'GET', credentials: 'include', mode: 'cors' });
+    return fetch(`${SERVER_URL}/users/getLogin`, { method: 'GET', credentials: 'include', mode: 'cors' });
 }
 
 export async function endSession() {
-    return fetch(`${SERVER_URL}/logout`, { method: 'GET', credentials: 'include', mode: 'cors' });
+    return fetch(`${SERVER_URL}/users/logout`, { method: 'GET', credentials: 'include', mode: 'cors' });
 }
 
 export async function isUsernameAvailable(username) {
   try {
-    const response = await fetch(`${SERVER_URL}/isUsernameAvailable/${username}`, {
+    const response = await fetch(`${SERVER_URL}/users/isUsernameAvailable/${username}`, {
       method: 'GET',
       credentials: 'include', 
       mode: 'cors'            

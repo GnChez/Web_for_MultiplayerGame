@@ -124,7 +124,7 @@ async function login(req, res, next) {
     }
     connection.query(
       `SELECT * FROM user WHERE (username=? OR email=?) AND password=?`,
-      [user.email, user.email, user.password],
+      [user.username, user.username, user.password],
       (errorQuery, results) => {
       connection.release(); // Always release connection whether there's an error or not
       if (errorQuery) {
@@ -133,9 +133,9 @@ async function login(req, res, next) {
       if (results.length > 0) {
         userData = results[0];
         console.log(userData)
-        res.json({msg: "Login Succesful", data: userData});
+        res.status(200).json({msg: "Login Succesful", data: userData});
       } else {
-        res.json({ msg: "Login Failed" });
+        res.status(400).json({msg: "Login Failed" });
       }
       }
     );

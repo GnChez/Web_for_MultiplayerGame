@@ -32,6 +32,9 @@ export const useAppStore = defineStore('app', {
       this.loginInfo.password = password;
       this.loginInfo.email = email;
     },
+    setUsername(usernameLogin) {
+      this.loginInfo.username = usernameLogin;
+    },
     setEmail(emailLogin) {
       this.loginInfo.email = emailLogin;
     },
@@ -43,17 +46,25 @@ export const useAppStore = defineStore('app', {
     },
     login() {
       return new Promise((resolve, reject) => {
-        login(this.$state.loginInfo).then((response) => response.json())
+        login(this.$state.loginInfo)
                 .then((data) => {
                   this.$state.loginInfo = data;
                   this.loading = false;
-                  if (data.email != '') {
-                    this.$state.auth = true;
-                    resolve(true);
-                  } else {
-                    this.$state.auth = false;
-                    resolve(false);
+                  if (data.data != null) {
+                    if (data.email != '') {
+                      this.$state.auth = true;
+                      console.log("Logged correctly")
+                      resolve(true);
+                      
+                    } else {
+                      this.$state.auth = false;
+                      resolve(false);
+                    }
                   }
+                  else {
+                    console.log("Not logged in");
+                  }
+                 
                 }).catch((error) => {
                   this.$state.auth = false;
                   reject(error);

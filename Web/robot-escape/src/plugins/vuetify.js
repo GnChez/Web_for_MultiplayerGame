@@ -12,7 +12,7 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
-import { mdiCheckCircleOutline, mdiCloseCircleOutline, mdiCached, mdiPlus, mdiMinus, mdiEye, mdiEyeOff, mdiArrowLeft, mdiArrowRight, mdiMagnify, mdiAlertOctagramOutline, mdiGoogle, mdiAlertCircleOutline } from '@mdi/js'
+import { mdiCheckCircleOutline, mdiCloseCircleOutline, mdiCached, mdiPlus, mdiMinus, mdiEye, mdiEyeOff, mdiArrowLeft, mdiArrowRight, mdiMagnify, mdiAlertOctagramOutline, mdiGoogle, mdiAlertCircleOutline,mdiDownload  } from '@mdi/js'
 
 const customPageStyle = {
   dark: false,
@@ -77,7 +77,8 @@ export default createVuetify({
       magnify: mdiMagnify,
       alertOctogram: mdiAlertOctagramOutline,
       google : mdiGoogle,
-      alert: mdiAlertCircleOutline
+      alert: mdiAlertCircleOutline,
+      descargar: mdiDownload
     },
     sets: {
       mdi,

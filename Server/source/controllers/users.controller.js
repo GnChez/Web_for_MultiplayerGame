@@ -149,7 +149,7 @@ async function login(req, res, next) {
     }
     connection.query(
       `SELECT * FROM user WHERE username = ? OR email = ?`,
-      [user.username, user.username],
+      [user.username, user.email],
       async (errorQuery, results) => {
         connection.release(); 
         if (errorQuery) {

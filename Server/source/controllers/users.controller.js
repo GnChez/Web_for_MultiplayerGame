@@ -236,7 +236,7 @@ async function downloadImage(req, res, next) {
 });
 }
 async function isUsernameAvailable(req, res, next) {
-  const username = req.param;
+  const username = req.params.username;
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error);
@@ -250,8 +250,35 @@ async function isUsernameAvailable(req, res, next) {
           return next(errorQuery);
         }
         if (results.length === 0) {
+          console.log("Username disponible");
           res.json({ available: true });
         } else {
+          console.log("Username no disponible");
+          res.json({ available: false });
+        }
+      }
+    );
+  });
+}
+async function isEmailAvailable(req, res, next) {
+  const email = req.params.email;
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error);
+    }
+    connection.query(
+      "SELECT * FROM user WHERE email = ?",
+      [email],
+      (errorQuery, results) => {
+        connection.release();
+        if (errorQuery) {
+          return next(errorQuery);
+        }
+        if (results.length === 0) {
+          console.log("Email disponible");
+          res.json({ available: true });
+        } else {
+          console.log("Email no disponible");
           res.json({ available: false });
         }
       }
@@ -295,6 +322,7 @@ module.exports = {
   logout,
   regeneratePwd,
   isUsernameAvailable,
+  isEmailAvailable,
   downloadImage,
   insertUser,
   updateUser,

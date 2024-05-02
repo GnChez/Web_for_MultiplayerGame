@@ -92,5 +92,26 @@ export async function isUsernameAvailable(username) {
   }
 }
 
+export async function isEmailAvailable(email) {
+  try {
+    const response = await fetch(`${SERVER_URL}/users/isEmailAvailable/${email}`, {
+      method: 'GET',
+      credentials: 'include', 
+      mode: 'cors'         
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok.');
+    }
+    const data = await response.json();
+
+    return data.available;
+
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+    throw error;
+  }
+}
+
 
 //REGENERAR CONTRASEÑA

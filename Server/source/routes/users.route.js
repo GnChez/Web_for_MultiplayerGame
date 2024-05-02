@@ -15,6 +15,7 @@ router.post('/login',userController.login);
 router.post('/loginGoogle',userController.loginGoogle);   
 router.get('/logout',userController.logout);
 router.post('/regeneratePassword',userController.regeneratePwd); 
+router.post('/updatePassword/:id',userController.updatePassword);
 router.post('/downloadImage',userController.downloadImage, upload.single('file')); 
 router.post('/registerUser',userController.insertUser);
 router.post('/updateUser/:id',userController.updateUser);

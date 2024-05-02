@@ -3,6 +3,7 @@ const fs = require('fs')
 const mysql = require("mysql2");
 const dbConfig = require("../configs/db.config.js");
 const { SERVER_URL, port } = require('../../index.js');
+const bcrypt = require('bcrypt');
 
 const pool = mysql.createPool({
   connectionLimit: 100, // Número máximo de conexiones en el pool
@@ -56,13 +57,14 @@ async function getUsernames(req, res, next) {
 
 async function insertUser(req, res, next) {
   let user = req.body;
+  let hashedPassword = await bcrypt.hash(user.password, 10);
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
     connection.query(
       `INSERT INTO user (email, username, password, name, surname) VALUES (?, ?, ?, ?, ?)`,
-      [user.email, user.username, user.password, user.name, user.surname],
+      [user.email, user.username, hashedPassword, user.name, user.surname],
       (errorQuery, results) => {
         connection.release(); // Always release connection whether there's an error or not
         if (errorQuery) {
@@ -95,6 +97,29 @@ async function updateUser(req, res, next) {
   });
 }
 
+async function updatePassword(req, res, next) {
+  let id = req.params.id;
+  let user = req.body;
+  let hashedPassword = await bcrypt.hash(user.password, 10);
+  pool.getConnection((error, connection) => {
+    if (error) {
+      return next(error); // Handle the error in an Express error-handling middleware
+    }
+    connection.query(
+      `UPDATE user SET password=? WHERE id=?`,
+      [hashedPassword, id],
+      (errorQuery, results) => {
+        connection.release(); // Always release connection whether there's an error or not
+        if (errorQuery) {
+          return next(errorQuery); // Send the error to the next error-handling middleware
+        }
+        res.json(results); // Send the results back to the client as JSON
+      }
+    );
+  });
+
+}
+
 async function deleteUser(req, res, next) {
   let id = req.params.id;
   pool.getConnection((error, connection) => {
@@ -118,13 +143,14 @@ async function deleteUser(req, res, next) {
 async function login(req, res, next) {
   let user = req.body;
   let userData = {};
+  let hashedPassword = await bcrypt.hash(user.password, 10);
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
     connection.query(
       `SELECT * FROM user WHERE (username=? OR email=?) AND password=?`,
-      [user.username, user.username, user.password],
+      [user.username, user.username, hashedPassword],
       (errorQuery, results) => {
       connection.release(); // Always release connection whether there's an error or not
       if (errorQuery) {
@@ -323,6 +349,7 @@ module.exports = {
   regeneratePwd,
   isUsernameAvailable,
   isEmailAvailable,
+  updatePassword,
   downloadImage,
   insertUser,
   updateUser,

@@ -14,7 +14,7 @@
                   >Sign up</v-toolbar-title
                 >
               </v-toolbar>
-              <v-stepper v-model="step">
+              <v-stepper v-model="step_header">
                 <v-stepper-header>
                   <v-stepper-item
                     title="What's your email?"
@@ -34,8 +34,16 @@
 
                   <v-stepper-item
                     title="Choose your user data"
-                    :complete="step >= 3"
+                    :complete="step > 3"
                     value="3"
+                  ></v-stepper-item>
+
+                  <v-divider></v-divider>
+
+                  <v-stepper-item
+                    title="Complete registration"
+                    :complete="step >= 4"
+                    value="4"
                   ></v-stepper-item>
                 </v-stepper-header>
               </v-stepper>
@@ -43,14 +51,17 @@
               <v-stepper-items>
                 <v-stepper-content step="1" v-if="step === 1">
                   <v-card-text>
+                    <div class="success-message"></div>
                     <v-form>
                       <v-text-field
                         class="secondfont"
                         id="email"
                         name="email"
                         label="EMAIL"
+                        ref="emailInput"
                         v-model="email"
                         :rules="emailRules"
+                        @input="resetEmailRules()"
                         required
                       >
                       </v-text-field>
@@ -84,6 +95,7 @@
                         label="FIRST NAME"
                         type="text"
                         :rules="textRules"
+                        ref="nameInput"
                         required
                       ></v-text-field>
                       <v-text-field
@@ -94,6 +106,7 @@
                         label="LAST NAME"
                         type="tesxt"
                         :rules="textRules"
+                        ref="surnameInput"
                         required
                       ></v-text-field>
                       <div>
@@ -121,8 +134,10 @@
                         name="username"
                         label="USERNAME"
                         type="text"
+                        ref="usernameInput"
                         :rules="textRules"
                         required
+                        @input="resetUsernameRules()"
                       ></v-text-field>
                       <v-text-field
                         class="secondfont"
@@ -130,8 +145,26 @@
                         id="password"
                         name="password"
                         label="PASSWORD"
-                        type="password"
+                        ref="passwordInput"
+                        :append-icon="passwordVisible ? '$eyeOff' : '$eye'"
+                        :type="passwordVisible ? 'text' : 'password'"
                         :rules="passwordRules"
+                        @click:append="togglePasswordVisibility()"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        class="secondfont"
+                        v-model="repeatPassword"
+                        id="passwordRepeated"
+                        name="passwordRepeated"
+                        label="REPEAT PASSWORD"
+                        ref="repeatPasswordInput"
+                        :append-icon="
+                          repeatPasswordVisible ? '$eyeOff' : '$eye'
+                        "
+                        :type="repeatPasswordVisible ? 'text' : 'password'"
+                        :rules="repeatPasswordRules"
+                        @click:append="toggleRepeatPasswordVisibility()"
                         required
                       ></v-text-field>
                       <v-card-actions class="centered">
@@ -147,6 +180,23 @@
                     </v-form>
                   </v-card-text>
                 </v-stepper-content>
+                <v-stepper-content step="4" v-if="step === 4">
+                  <v-card-text>
+                    <div>
+                      <div class="success-message"></div>
+                      <h3 class="secondfont-bold">Registration Successful!</h3>
+                      <p class="secondfont">
+                        Welcome to Robot Escape!. You can now start using your
+                        account.
+                      </p>
+                    </div>
+                    <v-card-actions class="centered">
+                      <v-btn class="enter-button" to="/login"
+                        >Go Home</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card-text>
+                </v-stepper-content>
               </v-stepper-items>
             </v-card>
           </v-col>
@@ -158,7 +208,11 @@
 
 <script>
 import { useAppStore } from "../stores/app";
-import { registerUser, isEmailAvailable, isUsernameAvailable } from "../communicationsManager";
+import {
+  registerUser,
+  isEmailAvailable,
+  isUsernameAvailable,
+} from "../communicationsManager";
 export default {
   name: "RegisterForm",
   setup() {
@@ -169,11 +223,15 @@ export default {
   },
   data() {
     return {
+      step_header: 0,
       step: 1,
       name: "",
       surname: "",
       username: "",
       password: "",
+      repeatPassword: "",
+      passwordVisible: false,
+      repeatPasswordVisible: false,
       email: "",
       loading: false,
       emailAvailable: true,
@@ -185,6 +243,10 @@ export default {
         (v) => /[A-Z]/.test(v) || "Password must contain an uppercase letter",
         (v) => /[0-9]/.test(v) || "Password must contain a number",
       ],
+      repeatPasswordRules: [
+        (v) => !!v || "Please confirm your password",
+        (v) => v === this.password || "Passwords do not match",
+      ],
       emailRules: [
         (v) => !!v || "E-mail is required",
         (v) =>
@@ -193,8 +255,24 @@ export default {
     };
   },
   methods: {
+    resetEmailRules() {
+      this.emailRules = [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid Ex: juan@gmail.com",
+      ];
+    },
+    resetUsernameRules() {
+      this.textRules = [(v) => !!v || "This field is required"];
+    },
+    togglePasswordVisibility() {
+      this.passwordVisible = !this.passwordVisible;
+    },
+    toggleRepeatPasswordVisibility() {
+      this.repeatPasswordVisible = !this.repeatPasswordVisible;
+    },
     setStep(newStep) {
       if (!this.loading) {
+        this.step_header = newStep-1;
         this.step = newStep;
       }
     },
@@ -205,21 +283,23 @@ export default {
         this.$refs.passwordInput.validate();
         return;
       }
-      console.log("Is it available?")
+      console.log("Is it available?");
       this.loading = true;
       isUsernameAvailable(this.username)
         .then((isAvailable) => {
           if (!isAvailable) {
             this.loading = false;
-            this.textRules = [
-              ...this.textRules,
-              () =>
-                "This username is already in use. Please choose another username.",
-            ];
+            this.textRules.push(() => 'This username is already in use. Please choose another username.');
             this.$refs.usernameInput.validate();
           } else {
             // If username is available, proceed with registration
-            this.register();
+            this.register().then(() => {
+              this.loading = false;
+              console.log("Register done");
+              this.setStep(4);
+              console.log("Step Setted: "+this.step);
+            })
+            
           }
         })
         .catch((error) => {
@@ -241,11 +321,7 @@ export default {
             this.setStep(2);
           } else {
             this.emailAvailable = false;
-            this.emailRules = [
-              ...this.emailRules,
-              () =>
-                "This email is already in use. Please choose another email.",
-            ];
+            this.emailRules.push(() => 'This email is already in use. Please choose another email.');
             this.$refs.emailInput.validate();
           }
         })
@@ -262,7 +338,7 @@ export default {
       }
       this.setStep(3);
     },
-    register() {
+    async register() {
       if (
         this.name === "" ||
         this.surname === "" ||

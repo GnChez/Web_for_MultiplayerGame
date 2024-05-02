@@ -50,6 +50,7 @@ export const useAppStore = defineStore('app', {
                 .then((data) => {
                   this.$state.loginInfo = data;
                   this.loading = false;
+                  console.log(data)
                   if (data.data != null) {
                     if (data.email != '') {
                       this.$state.auth = true;

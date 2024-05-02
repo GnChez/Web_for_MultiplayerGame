@@ -3,7 +3,7 @@
     <v-content>
       <v-container fluid fill-height>
         <v-row class="centered">
-          <v-col cols="12" sm="8" md="4">
+          <v-col cols="12" sm="8" md="4" >
             <v-card class="elevation-12 centered" style="padding-bottom: 10px;" >
               <v-toolbar >
                 <v-toolbar-title  class=" medium-font secondfont-bold bigfont centered">Sign in</v-toolbar-title>
@@ -34,12 +34,13 @@
                   >🡺</v-btn
                 >
               </v-card-actions>
+              <br>
               <div>
                 <div class="secondfont light-blue-colors">
-                  <router-link to="/forgot-password" style="color: inherit; text-decoration: none;">Can't Sign In?</router-link>
+                  <router-link to="/forgotpassword" style="color: inherit; text-decoration: none;">Can't Sign In?</router-link>
                 </div>
-                <div class="secondfont light-blue-colors">
-                  <router-link to="/register" style="color: inherit; text-decoration: none;">Create An Account</router-link>
+                <div class="secondfont">
+                  <p class="secondfont">Don't Have an Account? <router-link class="light-blue-colors" to="/register" style="color: inherit; text-decoration: none;">Sign Up</router-link></p>
                 </div>
               </div>
             </v-card>

@@ -47,7 +47,7 @@
                   ></v-stepper-item>
                 </v-stepper-header>
               </v-stepper>
-              <v-stepper-items> </v-stepper-items>
+              <br />
               <v-stepper-items>
                 <v-stepper-content step="1" v-if="step === 1">
                   <v-card-text>
@@ -74,12 +74,17 @@
                             >NEXT</v-btn
                           >
                         </v-card-actions>
-                        <div class="secondfont light-blue-colors">
-                          <router-link
-                            to="/login"
-                            style="color: inherit; text-decoration: none"
-                            >Already Have an Account? Log in</router-link
-                          >
+                        <br />
+                        <div class="secondfont">
+                          <p class="secondfont">
+                            Already Have an Account?
+                            <router-link
+                              class="light-blue-colors"
+                              to="/login"
+                              style="color: inherit; text-decoration: none"
+                              >Log in</router-link
+                            >
+                          </p>
                         </div>
                       </div>
                     </v-form>
@@ -191,9 +196,7 @@
                       </p>
                     </div>
                     <v-card-actions class="centered">
-                      <v-btn class="enter-button" to="/login"
-                        >Go Home</v-btn
-                      >
+                      <v-btn class="enter-button" to="/login">Go Home</v-btn>
                     </v-card-actions>
                   </v-card-text>
                 </v-stepper-content>
@@ -272,7 +275,7 @@ export default {
     },
     setStep(newStep) {
       if (!this.loading) {
-        this.step_header = newStep-1;
+        this.step_header = newStep - 1;
         this.step = newStep;
       }
     },
@@ -289,7 +292,10 @@ export default {
         .then((isAvailable) => {
           if (!isAvailable) {
             this.loading = false;
-            this.textRules.push(() => 'This username is already in use. Please choose another username.');
+            this.textRules.push(
+              () =>
+                "This username is already in use. Please choose another username."
+            );
             this.$refs.usernameInput.validate();
           } else {
             // If username is available, proceed with registration
@@ -297,9 +303,8 @@ export default {
               this.loading = false;
               console.log("Register done");
               this.setStep(4);
-              console.log("Step Setted: "+this.step);
-            })
-            
+              console.log("Step Setted: " + this.step);
+            });
           }
         })
         .catch((error) => {
@@ -321,7 +326,9 @@ export default {
             this.setStep(2);
           } else {
             this.emailAvailable = false;
-            this.emailRules.push(() => 'This email is already in use. Please choose another email.');
+            this.emailRules.push(
+              () => "This email is already in use. Please choose another email."
+            );
             this.$refs.emailInput.validate();
           }
         })

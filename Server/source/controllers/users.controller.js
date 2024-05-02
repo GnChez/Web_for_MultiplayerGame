@@ -141,28 +141,37 @@ async function deleteUser(req, res, next) {
 }
 
 async function login(req, res, next) {
-  let user = req.body;
-  let userData = {};
-  let hashedPassword = await bcrypt.hash(user.password, 10);
-  pool.getConnection((error, connection) => {
+  const user = req.body;
+
+  pool.getConnection(async (error, connection) => {
     if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
+      return next(error);
     }
     connection.query(
-      `SELECT * FROM user WHERE (username=? OR email=?) AND password=?`,
-      [user.username, user.username, hashedPassword],
-      (errorQuery, results) => {
-      connection.release(); // Always release connection whether there's an error or not
-      if (errorQuery) {
-        return next(errorQuery); // Send the error to the next error-handling middleware
-      }
-      if (results.length > 0) {
-        userData = results[0];
-        console.log(userData)
-        res.status(200).json({msg: "Login Succesful", data: userData});
-      } else {
-        res.status(400).json({msg: "Login Failed" });
-      }
+      `SELECT * FROM user WHERE username = ? OR email = ?`,
+      [user.username, user.username],
+      async (errorQuery, results) => {
+        connection.release(); 
+        if (errorQuery) {
+          return next(errorQuery); 
+        }
+        
+        if (results.length > 0) {
+          const userData = results[0];
+          console.log("Retreived password:"+userData.password)
+          console.log("Passed password:"+user.password)
+          const match = await bcrypt.compare(user.password, userData.password);
+          if (match) {
+            console.log("Login Successful");
+            res.status(200).json({ msg: "Login Successful", data: userData });
+          } else {
+            console.log("Password does not match");
+            res.status(401).json({ msg: "Login Failed" });
+          }
+        } else {
+          console.log("No user found with that username/email");
+          res.status(404).json({ msg: "No user found" });
+        }
       }
     );
   });

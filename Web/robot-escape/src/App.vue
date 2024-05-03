@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <AppBar v-if="!showAppBar"/>
-    <v-main>
+    <v-main class="ma-5">
       <router-view />
     </v-main>
   </v-app>
@@ -15,7 +15,7 @@ export default {
     data() {
     return {
       showAppBar: false,
-      allowedRoutes: ['/login', '/register'],
+      allowedRoutes: ['/login', '/register','/forgotpassword'],
     };
   },
   watch: {

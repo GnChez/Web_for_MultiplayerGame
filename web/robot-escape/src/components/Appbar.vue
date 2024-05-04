@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0">
+  <v-container class="pa-0 black-layouts">
     <v-app-bar :elevation="5" class="py-1 px-10">
       <v-spacer> </v-spacer>
       <template v-slot:prepend>
@@ -45,7 +45,7 @@ export default {
       logged: false,
       opciones: [
         { text: "FAQ", ruta: "/faq" },
-        { text: "About us", ruta: "/about_us" },
+        { text: "About us", ruta: "/aboutus" },
         { text: "Ranking", ruta: "/ranking" }]
     };
   },

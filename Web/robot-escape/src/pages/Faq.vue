@@ -1,14 +1,17 @@
 <template>
-    <ul v-for="conjunto in preguntas.FAQ">
+    <div>
+        <ul v-for="conjunto in preguntas.FAQ" class="faq-list">
         <li>
-            {{ conjunto.pregunta }}
+            <p class="secondfont-bold">{{ conjunto.pregunta }}</p>
             <ul>
                 <li>
-                    {{ conjunto.respuesta }}
+                    <p class="secondfont">{{ conjunto.respuesta }}</p>
                 </li>
             </ul>
         </li>
     </ul>
+    </div>
+    
 </template>
 
 <script>
@@ -67,4 +70,19 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.faq-list {
+    margin: 20px 15%;
+    list-style-type: none;
+    padding: 0;
+}
+
+.faq-list li {
+    margin-bottom: 10px;
+    line-height: 1.6; /* Improves readability */
+}
+
+.faq-list li ul {
+    margin-top: 5px;
+}
+</style>

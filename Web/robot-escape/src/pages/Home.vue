@@ -49,9 +49,9 @@ export default {
     left: 50%; /* Center the button horizontally */
     transform: translateX(-50%); /* Align center of the button with the center of the container */
     padding: 10px 20px; /* Padding around the text */
-    border: 2px solid #DAA520; /* Golden border */
+    border: 2px solid #F8B500; /* Golden border */
     background-color: transparent; /* Transparent background */
-    color: #DAA520; /* Golden text color to match the border */
+    color: #F8B500; /* Golden text color to match the border */
     font-size: 16px; /* Font size */
     cursor: pointer;
     border-radius: 5px; /* Rounded corners for the button */
@@ -61,7 +61,7 @@ export default {
 }
 
 .image-button:hover {
-    background-color: #DAA520; /* Golden background on hover */
+    background-color: #F8B500; /* Golden background on hover */
     color: white; /* White text on hover */
 }
 </style>

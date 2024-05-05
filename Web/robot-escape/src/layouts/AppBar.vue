@@ -14,8 +14,4 @@ export default {
 </script>
 
 <style scoped>
-.appbar {
-  background-color: blue;
-  /* Add any additional styling here */
-}
 </style>

@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <app-bar />
-    <h1>HOLA</h1>
+    <appbar />
     <default-view />
   </v-app>
 </template>

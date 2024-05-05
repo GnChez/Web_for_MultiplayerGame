@@ -1,20 +1,23 @@
 <template>
-  <v-app>
+  <v-app class= "yellow-layouts">
     <AppBar v-if="!showAppBar"/>
     <v-main class="ma-5">
       <router-view />
     </v-main>
+    <Footer v-if="!showFooter"/>
   </v-app>
 </template>
 
 <script>
 import AppBar from './layouts/AppBar.vue';
+import Footer from './layouts/Footer.vue';
 export default {
   components:
-    { AppBar },
+    { AppBar, Footer },
     data() {
     return {
       showAppBar: false,
+      showFooter: false,
       allowedRoutes: ['/login', '/register','/forgotpassword'],
     };
   },
@@ -22,6 +25,7 @@ export default {
     '$route'(to, from) {
       // Lógica para determinar si mostrar o no el app-bar basado en la ruta
       this.showAppBar = this.allowedRoutes.includes(to.path);
+      this.showFooter = this.allowedRoutes.includes(to.path);
     },
   },
 }

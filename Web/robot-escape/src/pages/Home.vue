@@ -55,7 +55,7 @@ export default {
     font-size: 16px; /* Font size */
     cursor: pointer;
     border-radius: 5px; /* Rounded corners for the button */
-    font-family: 'Second Font', sans-serif; /* Apply the custom font class */
+    
     outline: none; /* Remove focus outline for cleaner look */
     transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }

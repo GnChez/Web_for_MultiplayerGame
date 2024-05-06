@@ -2,22 +2,21 @@
     <v-content>
       <v-container fluid fill-height>
         <v-row class="centered">
-          <v-col cols="12" sm="8" md="4" >
             <v-card class="elevation-12 centered" style="padding-bottom: 10px;" >
               <v-toolbar >
                 <v-toolbar-title  class=" medium-font secondfont-bold bigfont centered">Sign in</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form style="width: 45vh;">
                   <v-text-field
-                    class="secondfont"
+                    class="secondfont textfields"
                     v-model="username"
                     name="username"
                     label="USERNAME"
                     type="text"
                   ></v-text-field>
                   <v-text-field
-                    class="secondfont"
+                    class="secondfont textfields"
                     v-model="password"
                     id="password"
                     name="password"
@@ -43,7 +42,6 @@
                 </div>
               </div>
             </v-card>
-          </v-col>
         </v-row>
       </v-container>
     </v-content>
@@ -91,3 +89,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>

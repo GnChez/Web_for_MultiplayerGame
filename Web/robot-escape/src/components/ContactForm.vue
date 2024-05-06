@@ -26,28 +26,6 @@
 
                 <v-text-field
                 class="textfields"
-                    v-model="state.header"
-                    :counter="10"
-                    :error-messages="v$.name.$errors.map(e => e.$message)"
-                    label="Last Name"
-                    required
-                    @blur="v$.name.$touch"
-                    @input="v$.name.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                class="textfields"
-                    v-model="state.header"
-                    :counter="10"
-                    :error-messages="v$.name.$errors.map(e => e.$message)"
-                    label="Last Name"
-                    required
-                    @blur="v$.name.$touch"
-                    @input="v$.name.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                class="textfields"
                     v-model="state.email"
                     :error-messages="v$.email.$errors.map(e => e.$message)"
                     label="E-mail"
@@ -55,6 +33,30 @@
                     @blur="v$.email.$touch"
                     @input="v$.email.$touch"
                 ></v-text-field>
+
+                <v-text-field
+                class="textfields"
+                    v-model="state.header"
+                    :counter="10"
+                    :error-messages="v$.name.$errors.map(e => e.$message)"
+                    label="Header"
+                    required
+                    @blur="v$.name.$touch"
+                    @input="v$.name.$touch"
+                ></v-text-field>
+
+                <v-text-field
+                    class="textfields"
+                    v-model="state.message"
+                    :counter="10"
+                    :error-messages="v$.name.$errors.map(e => e.$message)"
+                    label="Message"
+                    required
+                    @blur="v$.name.$touch"
+                    @input="v$.name.$touch"
+                ></v-text-field>
+
+                
                 <v-btn class="me-4 form_button" @click="v$.$validate">
                     send
                 </v-btn>

@@ -46,7 +46,8 @@ export default {
       opciones: [
         { text: "FAQ", ruta: "/faq" },
         { text: "About us", ruta: "/aboutus" },
-        { text: "Ranking", ruta: "/ranking" }]
+        { text: "Ranking", ruta: "/ranking" },
+        { text: "Contact us", ruta: "/contactus" },]
     };
   },
   methods: {

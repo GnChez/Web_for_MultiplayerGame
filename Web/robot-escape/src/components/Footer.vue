@@ -8,8 +8,9 @@
           color="white"
           rounded="xl"
           variant="text"
+          :to="link.route"
         >
-          {{ link }}
+          {{ link.page }}
         </v-btn>
         <v-col class="text-center mt-4 white-colors" cols="12">
           {{ new Date().getFullYear() }} — <strong>Robot Escape</strong>
@@ -22,12 +23,26 @@
     export default {
       data: () => ({
         links: [
-          'Home',
-          'About Us',
-          'Team',
-          'Services',
-          'Blog',
-          'Contact Us',
+          {
+            page: 'Home',
+            route: '/home',
+          },
+          {
+            page: 'About Us',
+            route: '/aboutus',
+          },
+          {
+            page: 'FAQ',
+            route: '/faq',
+          },
+          {
+            page: 'Ranking',
+            route: '/ranking',
+          },
+          {
+            page: 'Contact Us',
+            route: '/contactus',
+          }
         ],
       }),
     }

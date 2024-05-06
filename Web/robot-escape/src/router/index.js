@@ -61,6 +61,11 @@ const routes = [
     path:'/aboutus',
     name:'AboutUs',
     component: () => import(/* webpackChunkName: "about_us" */ '@/pages/AboutUs.vue'),
+  },
+  {
+    path:'/contactus',
+    name: "ContactUs",
+    component: () => import(/* webpackChunkName: "contact_us" */ '@/pages/ContactUs.vue'),
   }
 ]
 

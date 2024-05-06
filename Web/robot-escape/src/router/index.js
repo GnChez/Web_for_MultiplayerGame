@@ -1,5 +1,5 @@
 
-import { createRouter, createWebHashHistory } from 'vue-router/auto'
+import { createRouter, createWebHistory } from 'vue-router/auto'
 
 import { useAppStore } from '../stores/app.js'
 
@@ -22,9 +22,8 @@ const requireAuth = (to, from, next) => {
 }
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */ '@/pages/Home.vue') 
+    path: '/',    
+    component: () => import(/* webpackChunkName: */ '@/pages/Home.vue') 
   },
   {
     path:'/login',
@@ -70,7 +69,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory('/'),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 
 })

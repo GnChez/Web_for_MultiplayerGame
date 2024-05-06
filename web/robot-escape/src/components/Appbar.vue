@@ -10,9 +10,11 @@
             <h2>ROBOT ESCAPE</h2>
           </v-btn>
         </div>
+
         <div v-for="(button, index) in opciones" id="no-background-hover">
           <v-btn class="black-layouts white-colors secondfont" :key="index" :ripple="false" variant="flat" @click="redirect(button.ruta)">
             <a>{{ button.text }}</a>
+            
           </v-btn>
         </div>
       </template>

@@ -1,69 +1,78 @@
-<template >
+<template>
     <v-card class="rounded-lg">
-        <div class="centered secondfont">
-            <form class="form_contact">
-                <v-text-field
-                class="textfields"
-                    v-model="state.name"
-                    :counter="10"
-                    :error-messages="v$.name.$errors.map(e => e.$message)"
-                    label="Name"
-                    required
-                    @blur="v$.name.$touch"
-                    @input="v$.name.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                class="textfields"
-                    v-model="state.lastname"
-                    :counter="10"
-                    :error-messages="v$.name.$errors.map(e => e.$message)"
-                    label="Last Name"
-                    required
-                    @blur="v$.name.$touch"
-                    @input="v$.name.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                class="textfields"
-                    v-model="state.email"
-                    :error-messages="v$.email.$errors.map(e => e.$message)"
-                    label="E-mail"
-                    required
-                    @blur="v$.email.$touch"
-                    @input="v$.email.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                class="textfields"
-                    v-model="state.header"
-                    :counter="10"
-                    :error-messages="v$.name.$errors.map(e => e.$message)"
-                    label="Header"
-                    required
-                    @blur="v$.name.$touch"
-                    @input="v$.name.$touch"
-                ></v-text-field>
-
-                <v-text-field
-                    class="textfields"
-                    v-model="state.message"
-                    :counter="10"
-                    :error-messages="v$.name.$errors.map(e => e.$message)"
-                    label="Message"
-                    required
-                    @blur="v$.name.$touch"
-                    @input="v$.name.$touch"
-                ></v-text-field>
-
-                
-                <v-btn class="me-4 form_button" @click="v$.$validate">
-                    send
-                </v-btn>
-            </form>
-        </div>
+      <v-row>
+        <!-- Left column for the text -->
+        <v-col cols="6" class="description-column">
+          <div class="secondfont">
+            <h1>LET US KNOW YOUR DOUBTS!</h1>
+            <br>
+            <p>Fill in the form to get in touch with us. All fields are required to ensure the best possible response to your inquiry.</p>
+          </div>
+        </v-col>
+  
+        <!-- Right column for the form -->
+        <v-col cols="6" class="centered secondfont">
+          <form class="form_contact">
+            <v-text-field
+              class="textfields"
+              v-model="state.name"
+              :error-messages="v$.name.$errors.map(e => e.$message)"
+              label="Name"
+              required
+              @blur="v$.name.$touch"
+              @input="v$.name.$touch"
+            ></v-text-field>
+  
+            <v-text-field
+              class="textfields"
+              v-model="state.lastname"
+              :error-messages="v$.name.$errors.map(e => e.$message)"
+              label="Last Name"
+              required
+              @blur="v$.name.$touch"
+              @input="v$.name.$touch"
+            ></v-text-field>
+  
+            <v-text-field
+              class="textfields"
+              v-model="state.email"
+              :error-messages="v$.email.$errors.map(e => e.$message)"
+              label="E-mail"
+              required
+              @blur="v$.email.$touch"
+              @input="v$.email.$touch"
+            ></v-text-field>
+  
+            <v-text-field
+              class="textfields"
+              v-model="state.header"
+              :counter="10"
+              :error-messages="v$.name.$errors.map(e => e.$message)"
+              label="Header"
+              required
+              @blur="v$.name.$touch"
+              @input="v$.name.$touch"
+            ></v-text-field>
+  
+            <v-textarea
+              class="textfields"
+              v-model="state.message"
+              :counter="255"
+              :error-messages="v$.name.$errors.map(e => e.$message)"
+              label="Message"
+              required
+              @blur="v$.name.$touch"
+              @input="v$.name.$touch"
+            ></v-textarea>
+  
+            <v-btn class="me-4 form_button" @click="v$.$validate">
+              Send
+            </v-btn>
+          </form>
+        </v-col>
+      </v-row>
     </v-card>
-</template>
+  </template>
 
 <script setup>
     import { reactive } from 'vue'
@@ -91,22 +100,14 @@
     }
 
     const v$ = useVuelidate(rules, state)
-
-    function clear() {
-        v$.value.$reset()
-
-        for (const [key, value] of Object.entries(initialState)) {
-            state[key] = value
-        }
-    }
 </script>
 
 <style scoped>
 .v-card {
     background-color: white;
     border-radius: 10px;
-    padding: 40px;
-    width:30%;
+    padding: 60px;
+    width:60%;
 }
 .form_contact {
     width: 100%;
@@ -118,5 +119,13 @@
     background-color: #3f51b5;
     color: white;
     border-radius: 10px;
+    margin-top: 30px;
+}
+.description-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    padding-bottom: 15%;
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-  <v-app id="inspire" class="centered">
     <v-content>
       <v-container fluid fill-height>
         <v-row class="centered">
@@ -68,7 +67,7 @@
                       <div>
                         <v-card-actions class="centered">
                           <v-btn
-                            class="enter-button"
+                            class="enter-button centered"
                             @click="verifyEmailAndProceed()"
                             :disabled="loading"
                             >NEXT</v-btn
@@ -116,11 +115,11 @@
                       ></v-text-field>
                       <div>
                         <v-card-actions class="centered">
-                          <v-btn class="enter-button" @click="setStep(1)"
+                          <v-btn class="enter-button centered" @click="setStep(1)"
                             >BACK</v-btn
                           >
                           <v-btn
-                            class="enter-button"
+                            class="enter-button centered"
                             @click="verifyNameAndProceed()"
                             :disabled="loading"
                             >NEXT</v-btn
@@ -173,11 +172,11 @@
                         required
                       ></v-text-field>
                       <v-card-actions class="centered">
-                        <v-btn class="enter-button" @click="setStep(2)"
+                        <v-btn class="enter-button centered" @click="setStep(2)"
                           >BACK</v-btn
                         >
                         <v-btn
-                          class="enter-button"
+                          class="enter-button centered"
                           @click="verifyUserDataAndProceed()"
                           >REGISTER</v-btn
                         >
@@ -196,7 +195,7 @@
                       </p>
                     </div>
                     <v-card-actions class="centered">
-                      <v-btn class="enter-button" to="/login">Go Home</v-btn>
+                      <v-btn class="enter-button centered" to="/login">Go Home</v-btn>
                     </v-card-actions>
                   </v-card-text>
                 </v-stepper-content>
@@ -206,7 +205,6 @@
         </v-row>
       </v-container>
     </v-content>
-  </v-app>
 </template>
 
 <script>

@@ -91,6 +91,8 @@ async function updateUser(req, res, next) {
         if (errorQuery) {
           return next(errorQuery); // Send the error to the next error-handling middleware
         }
+        req.session.user.username = user.username;
+        req.session.user.password = user.password;
         res.json(results); // Send the results back to the client as JSON
       }
     );
@@ -143,6 +145,8 @@ async function deleteUser(req, res, next) {
 async function login(req, res, next) {
   const user = req.body;
 
+  req.session.user = {}
+
   pool.getConnection(async (error, connection) => {
     if (error) {
       return next(error);
@@ -163,6 +167,8 @@ async function login(req, res, next) {
           const match = await bcrypt.compare(user.password, userData.password);
           if (match) {
             console.log("Login Successful");
+            userData.sessionId = req.session.id; // Add sessionId field to userData
+            req.session.user = userData;
             res.status(200).json({ msg: "Login Successful", data: userData });
           } else {
             console.log("Password does not match");
@@ -197,7 +203,6 @@ async function logout(req, res, next) {
             console.error('Error al cerrar la sesión:', err);
             res.status(500).json({ message: 'Error al cerrar la sesión' });
         } else {
-
             res.clearCookie('connect.sid'); // Elimina la cookie de sesión
             res.status(200).send();
         }
@@ -219,6 +224,7 @@ async function regeneratePwd(req, res, next) {
                   if(errorQuery) {
                     reject(errorQuery);
                   } else {
+                    req.session.user.password = req.body.newPassword;
                     resolve(results);
                   }
                 })

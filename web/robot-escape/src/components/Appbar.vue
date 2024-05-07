@@ -38,7 +38,7 @@
             class="black-layouts white-colors"
           ></v-icon>
         </v-btn>
-        <v-btn variant="flat" class="mx-5"
+        <v-btn variant="flat" class="mx-5" @click="download()"
           ><v-icon icon="$descargar" size="x-large"></v-icon>
           Download
         </v-btn>
@@ -101,7 +101,8 @@ export default {
     showUserData() {
       const userData = this.appStore.getLoginInfo();
       console.log(userData);
-    }, download() {
+    }, 
+    download() {
       downloadGame()
     }
   },

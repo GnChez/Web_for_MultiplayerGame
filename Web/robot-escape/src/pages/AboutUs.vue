@@ -2,8 +2,8 @@
     <h1></h1>
     <div class="about-us-container secondfont">
         <section v-for="section in about_us.sections" :key="section.header" class="section-block">
-            <h2>{{ section.header }}</h2>
-            <p>{{ section.content }}</p>
+            <h2 class="black-colors">{{ section.header }}</h2>
+            <p >{{ section.content }}</p>
             <ul v-if="section.subcontent" class="subcontent-list">
                 <li v-for="item in section.subcontent" :key="item">{{ item }}</li>
             </ul>

@@ -2,7 +2,6 @@
     <v-content>
       <v-container fluid fill-height>
         <v-row class="centered">
-          <v-col cols="12" sm="8" md="4">
             <v-card
               class="elevation-12 centered"
               style="padding-bottom: 10px; width: max-content"
@@ -201,7 +200,6 @@
                 </v-stepper-content>
               </v-stepper-items>
             </v-card>
-          </v-col>
         </v-row>
       </v-container>
     </v-content>

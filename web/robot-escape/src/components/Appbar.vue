@@ -11,28 +11,32 @@
           </v-btn>
         </div>
         <div v-for="(button, index) in opciones" id="no-background-hover">
-          <v-btn class="black-layouts white-colors secondfont" :key="index" :ripple="false" variant="flat" @click="redirect(button.ruta)">
+          <v-btn class="black-layouts white-colors secondfont" :key="index" :ripple="false" variant="flat"
+            @click="redirect(button.ruta)">
             <a>{{ button.text }}</a>
           </v-btn>
         </div>
       </template>
 
       <template v-slot:append>
-        <v-btn variant="plain"><v-icon icon="$eye" size="x-large" @click="showUserData()" class="black-layouts white-colors"></v-icon>
+        <v-btn variant="plain"><v-icon icon="$eye" size="x-large" @click="showUserData()"
+            class="black-layouts white-colors"></v-icon>
           Show User Data
         </v-btn>
-        <v-btn variant="flat" class="mx-5"><v-icon icon="$descargar" size="x-large"></v-icon>
+        <v-btn variant="flat" class="mx-5" @click="download"><v-icon icon="$descargar" size="x-large"></v-icon>
           Download
         </v-btn>
         <v-btn variant="outlined" v-if="!logged" @click="redirect('/login')" class="black-layouts white-colors">
           Sign in
         </v-btn>
+
       </template>
     </v-app-bar>
   </v-container>
 </template>
 <script>
 import { useAppStore } from "@/stores/app";
+import { downloadGame } from "@/communicationsManager";
 export default {
   setup() {
     const appStore = useAppStore();
@@ -46,7 +50,7 @@ export default {
       opciones: [
         { text: "FAQ", ruta: "/faq" },
         { text: "About us", ruta: "/aboutus" },
-        { text: "Ranking", ruta: "/ranking" },
+        { text: "Ranking", ruta: "/rankings" },
         { text: "Contact us", ruta: "/contactus" },]
     };
   },
@@ -57,7 +61,9 @@ export default {
     showUserData() {
       const userData = this.appStore.getLoginInfo();
       console.log(userData);
-    },
+    }, download() {
+      downloadGame()
+    }
   },
 };
 </script>

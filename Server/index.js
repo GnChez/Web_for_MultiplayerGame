@@ -6,6 +6,7 @@ const usersRouter = require('./source/routes/users.route');
 const matchRouter = require('./source/routes/match.route');
 const stagesRouter = require('./source/routes/stages.route');
 const roomsRouter = require('./source/routes/rooms.route');
+const dataRouter = require('./source/routes/data.route');
 const matchStageRouter = require('./source/routes/match_stage.route');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -47,3 +48,5 @@ app.use('/stages', stagesRouter);
 app.use('/rooms', roomsRouter);
 
 app.use('/match_stage', matchStageRouter);
+
+app.use('/data', dataRouter);

@@ -13,7 +13,7 @@
           {{ link.page }}
         </v-btn>
         <v-col class="text-center mt-4 white-colors" cols="12">
-          {{ new Date().getFullYear() }} — <strong>Robot Escape</strong>
+          <strong>™ & © {{ new Date().getFullYear() }} Quadrinomial Creations, Inc. Todos los derechos reservados.Quadrinomial Creations y Robot Escape son marcas comerciales o marcas registradas de Quadrinomial Creations, Inc.</strong>
         </v-col>
       </v-row>
     </v-footer>

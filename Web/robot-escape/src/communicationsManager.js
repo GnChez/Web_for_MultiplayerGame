@@ -11,6 +11,14 @@ export async function downloadImage(formData) {
     return imagen;
   }
 
+  export async function downloadGame() {          
+      const anchor = document.createElement('a')
+      anchor.href = SERVER_URL+"/data/getGame"
+      document.body.appendChild(anchor)
+      anchor.click()
+      document.body.removeChild(anchor)
+  }
+  
 export async function loginGoogle(usuario) {
 
     return fetch(`${SERVER_URL}/users/loginGoogle`,

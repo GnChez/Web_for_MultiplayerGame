@@ -36,8 +36,8 @@
             route: '/faq',
           },
           {
-            page: 'Ranking',
-            route: '/ranking',
+            page: 'Rankings',
+            route: '/rankings',
           },
           {
             page: 'Contact Us',

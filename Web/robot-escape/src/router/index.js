@@ -18,11 +18,16 @@ const requireAuth = (to, from, next) => {
 };
 
 const auth = (to, from, next) => {
+  console.log("auth function triggered");
   const store = useAppStore();
   if (!store.isAuthenticated) {
-    store.hasCookieId().then((isAuthenticated) => {
+    console.log("Trying to auth")
+    store.hasCookieId().then(() => {
       next();
     });
+  }
+  else {
+    console.log("Already authenticated")
   }
 };
 
@@ -58,6 +63,15 @@ const routes = [
     name: "Register",
     component: () =>
       import(/* webpackChunkName: "register" */ "@/pages/Register.vue"),
+    beforeEnter: auth,
+  },
+  {
+    path: "/changeusername",
+    name: "ChangeUsername",
+    component: () =>
+      import(
+        /* webpackChunkName: "forgot-password" */ "@/pages/ChangeUsername.vue"
+      ),
     beforeEnter: auth,
   },
   {

@@ -2,7 +2,6 @@
     <v-content>
       <v-container fluid fill-height>
         <v-row class="centered">
-          <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12 centered" style="padding-bottom: 10px">
             <br>    
               <v-card-text>
@@ -21,7 +20,7 @@
                 </v-form>
               </v-card-text>
               <v-card-actions class="centered">
-                <v-btn class="enter-button" @click="sendEmail()">SEND EMAIL</v-btn>
+                <v-btn class="enter-button centered" @click="sendEmail()">SEND EMAIL</v-btn>
                 
               </v-card-actions>
               <br>
@@ -29,7 +28,6 @@
                   <p class="secondfont">Don't Have an Account? <router-link class="light-blue-colors" to="/register" style="color: inherit; text-decoration: none;">Sign Up</router-link></p>
                 </div>
             </v-card>
-          </v-col>
         </v-row>
       </v-container>
     </v-content>

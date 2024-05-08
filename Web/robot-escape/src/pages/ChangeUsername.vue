@@ -1,13 +1,13 @@
 <template>
     <div class="container">
-        <ForgotPasswordForm/>
+        <ChangeUsernameForm/>
     </div>
     
 
 </template>
 
 <script>
-import ForgotPasswordForm from '@/components/ForgotPasswordForm.vue';
+import ChangeUsernameForm from '@/components/ChangeUsernameForm.vue';
 export default {
 data() {
     return {

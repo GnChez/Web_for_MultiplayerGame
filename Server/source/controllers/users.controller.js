@@ -81,19 +81,22 @@ async function updateUser(req, res, next) {
   let user = req.body;
   pool.getConnection((error, connection) => {
     if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
+      return next(error);
     }
     connection.query(
       `UPDATE user SET username=?, password=? WHERE id=?`,
       [user.username, user.password, id],
       (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
+        connection.release();
         if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
+          return next(errorQuery);
         }
+        // Initialize req.session.user as an object if it doesn't already exist
+        req.session.user = req.session.user || {};
         req.session.user.username = user.username;
-        req.session.user.password = user.password;
-        res.json(results); // Send the results back to the client as JSON
+        req.session.user.password = user.password; // Consider the security implications of storing passwords in session
+        console.log(req.session.user.username)
+        res.json(results);
       }
     );
   });
@@ -102,6 +105,7 @@ async function updateUser(req, res, next) {
 async function updatePassword(req, res, next) {
   let id = req.params.id;
   let user = req.body;
+  
   let hashedPassword = await bcrypt.hash(user.password, 10);
   pool.getConnection((error, connection) => {
     if (error) {

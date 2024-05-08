@@ -2,9 +2,9 @@
     <v-content>
       <v-container fluid fill-height>
         <v-row class="centered">
-            <v-card class="elevation-12 centered" style="padding-bottom: 10px;" >
-              <v-toolbar >
-                <v-toolbar-title  class=" medium-font secondfont-bold bigfont centered">Sign in</v-toolbar-title>
+            <v-card class="elevation-12" style="padding-bottom: 10px;" >
+              <v-toolbar class="" >
+                <v-toolbar-title  class=" medium-font secondfont-bold bigfont">Sign in</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form style="width: 45vh;">

@@ -22,19 +22,23 @@
         </div>
 
         <div v-for="(button, index) in opciones" id="no-background-hover">
-          <v-btn class="black-layouts white-colors secondfont" :key="index" :ripple="false" variant="flat"
-            @click="redirect(button.ruta)">
+          <v-btn
+            class="black-layouts white-colors secondfont"
+            :key="index"
+            :ripple="false"
+            variant="flat"
+            @click="redirect(button.ruta)"
+          >
             <a>{{ button.text }}</a>
           </v-btn>
         </div>
       </template>
 
       <template v-slot:append>
-        <v-btn variant="plain"
+        <v-btn variant="plain" @click="showUserData()"
           ><v-icon
             icon="$eye"
             size="x-large"
-            @click="showUserData()"
             class="black-layouts white-colors"
           ></v-icon>
         </v-btn>
@@ -50,17 +54,31 @@
         >
           Sign in
         </v-btn>
-        <v-menu v-if="logged">
+        <v-menu v-if="logged" open-on-hover offset-y bottom class="custom-menu">
           <template v-slot:activator="{ props }">
-            <v-btn class="black-layouts white-colors" v-bind="props"><v-icon icon="$menu" size="x-large"></v-icon></v-btn>
+            
+            <v-btn class="black-layouts white-colors" v-bind="props">
+              <p class="secondfont white-colors">{{ this.username }}</p><v-icon icon="$menu" size="x-large"></v-icon>
+            </v-btn>
           </template>
-          <v-list>
+          <v-list class="text-center gray-layouts menu-divider custom-list">
+            <v-divider class="yellow-colors menu-divider"></v-divider>
             <v-list-item
+              class="white-colors"
               v-for="(item, index) in menuOptions"
+              @click="redirect(item.ruta)"
               :key="index.text"
               :value="index.text"
             >
               <v-list-item-title>{{ item.text }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              class="white-colors"
+              @click="logout()"
+              key="Logout"
+              value="Logout"
+            >
+              <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -80,18 +98,22 @@ export default {
   },
   data() {
     return {
+      username: "Username",
       logged: false,
-      menuOptions: [{ text: "Profile", ruta: "/profile" }, { text: "Logout" }],
+      menuOptions: [{ text: "Profile", ruta: "/profile" }],
       opciones: [
         { text: "FAQ", ruta: "/faq" },
         { text: "About us", ruta: "/aboutus" },
-        { text: "Ranking", ruta: "/ranking" },
+        { text: "Rankings", ruta: "/rankings" },
         { text: "Contact us", ruta: "/contactus" },
       ],
     };
   },
   created() {
     this.logged = this.appStore.isAuthenticated;
+    if (this.logged) {
+      this.username = this.appStore.getLoginInfo.data.username;
+    }
     console.log(this.logged);
   },
   methods: {
@@ -99,12 +121,16 @@ export default {
       this.$router.push(ruta);
     },
     showUserData() {
-      const userData = this.appStore.getLoginInfo();
+      const userData = this.appStore.getLoginInfo;
       console.log(userData);
-    }, 
+    },
     download() {
-      downloadGame()
-    }
+      downloadGame();
+    },
+    logout() {
+      this.appStore.logout();
+      this.$router.push({ path: "/home" });
+    },
   },
 };
 </script>
@@ -116,5 +142,17 @@ export default {
 #clickable {
   cursor: pointer;
   display: flex;
+}
+.custom-menu .v-menu__content {
+  border-radius: 10px; /* adjust as needed */
+  background-color: #f0f0f0; /* adjust as needed */
+}
+
+.thick-divider {
+  border-top-width: 2px; /* adjust as needed */
+}
+
+.custom-list {
+  border-bottom: 2px solid white; /* adjust as needed */
 }
 </style>

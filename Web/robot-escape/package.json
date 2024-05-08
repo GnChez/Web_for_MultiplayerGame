@@ -18,13 +18,16 @@
     "delay": "^6.0.0",
     "emailjs-com": "^3.2.0",
     "p-debounce": "^4.0.0",
+    "pinia": "^2.1.7",
     "roboto-fontface": "*",
     "validator": "^13.11.0",
     "vue": "^3.4.0",
     "vue-chartjs": "^5.3.1",
     "vue-picture-cropper": "^0.7.0",
+    "vue-router": "^4.3.2",
     "vuelidate": "^0.7.7",
-    "vuetify": "^3.5.0"
+    "vuetify": "^3.5.0",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

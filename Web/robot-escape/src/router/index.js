@@ -1,7 +1,9 @@
-import { createRouter, createWebHistory } from "vue-router/auto";
+// Composables
+import { createRouter, createWebHistory } from 'vue-router'
 
 import { useAppStore } from "../stores/app.js";
 
+//FOR THE ROUTES THAT ARE NOT ACCESIBLE WITHOUT AUTHENTICATION
 const requireAuth = (to, from, next) => {
   const store = useAppStore();
   if (store.auth) {
@@ -11,12 +13,13 @@ const requireAuth = (to, from, next) => {
       if (isAuthenticated) {
         next();
       } else {
-        next({ path: "/home" });
+        next({ path: "/" });
       }
     });
   }
 };
 
+//FOR THE AUTOLOGIN FUNCTION IN EVERY ROUTE
 const auth = (to, from, next) => {
   console.log("auth function triggered");
   const store = useAppStore();
@@ -28,100 +31,181 @@ const auth = (to, from, next) => {
   }
   else {
     console.log("Already authenticated")
+    next();
   }
 };
 
+//FOR THE ROUTES THAT ARE AVOIDED IF THE USER IS ALREADY AUTHENTICATED
 const checkAuth = (to, from, next) => {
   const store = useAppStore();
   if (store.isAuthenticated) {
-    next({ path: "/home" });
+    next({ path: "/" });
   } else {
     store.hasCookieId().then((isAuthenticated) => {
       if (isAuthenticated) {
-        next({ path: "/home" });
+        next({ path: "/" });
       } else {
         next();
       }
     });
   }
 };
+
 const routes = [
   {
-    path: "/",
-    component: () => import(/* webpackChunkName: */ "@/pages/Home.vue"),
-    beforeEnter: auth,
+    path: '/',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Home.vue'),
+        beforeEnter: auth,
+      },
+    ],
   },
   {
-    path: "/login",
-    name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "@/pages/Login.vue"),
-    beforeEnter: checkAuth,
+    path: '/login',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Login.vue'),
+        beforeEnter: checkAuth,
+      },
+    ],
   },
   {
-    path: "/register",
-    name: "Register",
-    component: () =>
-      import(/* webpackChunkName: "register" */ "@/pages/Register.vue"),
-    beforeEnter: auth,
+    path: '/register',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Register',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Register.vue'),
+        beforeEnter: auth,
+      },
+    ],
   },
   {
-    path: "/changeusername",
-    name: "ChangeUsername",
-    component: () =>
-      import(
-        /* webpackChunkName: "forgot-password" */ "@/pages/ChangeUsername.vue"
-      ),
-    beforeEnter: auth,
+    path: '/changeusername',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'ChangeUsername',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/ChangeUsername.vue'),
+        beforeEnter: requireAuth,
+      },
+    ],
   },
   {
-    path: "/forgotpassword",
-    name: "ForgotPassword",
-    component: () =>
-      import(
-        /* webpackChunkName: "forgot-password" */ "@/pages/ForgotPassword.vue"
-      ),
-    beforeEnter: auth,
+    path: '/forgotpassword',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'ForgotPassword',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/ForgotPassword.vue'),
+      },
+    ],
   },
   {
-    path: "/profile",
-    name: "Profile",
-    component: () =>
-      import(/* webpackChunkName: "perfil" */ "@/pages/Profile.vue"),
-    beforeEnter: requireAuth,
+    path: '/profile',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Profile',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Profile.vue'),
+        beforeEnter: requireAuth,
+      },
+    ],
   },
   {
-    path: "/faq",
-    name: "FAQ",
-    component: () => import(/* webpackChunkName: "faq" */ "@/pages/Faq.vue"),
-    beforeEnter: auth,
+    path: '/faq',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'FAQ',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Faq.vue'),
+        beforeEnter: auth,
+      },
+    ],
   },
   {
-    path: "/rankings",
-    name: "Rankings",
-    component: () =>
-      import(/* webpackChunkName: "rankings" */ "@/pages/Rankings.vue"),
-    beforeEnter: auth,
+    path: '/rankings',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Rankings',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Rankings.vue'),
+        beforeEnter: auth,
+      },
+    ],
   },
   {
-    path: "/aboutus",
-    name: "AboutUs",
-    component: () =>
-      import(/* webpackChunkName: "about_us" */ "@/pages/AboutUs.vue"),
-    beforeEnter: auth,
+    path: '/aboutus',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'AboutUs',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/AboutUs.vue'),
+        beforeEnter: auth,
+      },
+    ],
   },
   {
-    path: "/contactus",
-    name: "ContactUs",
-    component: () =>
-      import(/* webpackChunkName: "contact_us" */ "@/pages/ContactUs.vue"),
-    beforeEnter: auth,
+    path: '/contactus',
+    component: () => import('@/layouts/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'ContactUs',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/ContactUs.vue'),
+        beforeEnter: auth,
+      },
+    ],
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-});
+})
 
-export default router;
+export default router

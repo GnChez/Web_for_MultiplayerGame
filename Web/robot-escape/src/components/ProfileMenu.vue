@@ -75,7 +75,7 @@ export default {
       this.store.logout().then((result) => {
         if (result) {
           console.log("Login Session: ", this.store.getLoginInfo)
-          this.$router.push({ name: "Home" });
+          this.$router.push({ path: "/" });
         }
       })
 

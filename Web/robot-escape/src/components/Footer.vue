@@ -25,7 +25,7 @@
         links: [
           {
             page: 'Home',
-            route: '/home',
+            route: '/',
           },
           {
             page: 'About Us',

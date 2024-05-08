@@ -9,6 +9,9 @@
 <script>
 import LoginForm from '@/components/LoginForm.vue';
 export default {
+    components: {
+    LoginForm // This registers the LoginForm component locally
+  },
     data() {
         return {
         };

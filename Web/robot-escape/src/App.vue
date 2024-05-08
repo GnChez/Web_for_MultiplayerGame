@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import AppBar from './layouts/AppBar.vue';
-import Footer from './layouts/Footer.vue';
+import AppBar from '@/layouts/AppBar.vue';
+import Footer from '@/layouts/Footer.vue';
 export default {
   components:
     { AppBar, Footer },
@@ -19,13 +19,14 @@ export default {
       showAppBar: false,
       showFooter: false,
       allowedRoutes: ['/login', '/register','/forgotpassword'],
+      allowedFRoutes: []
     };
   },
   watch: {
     '$route'(to, from) {
       // Lógica para determinar si mostrar o no el app-bar basado en la ruta
       this.showAppBar = this.allowedRoutes.includes(to.path);
-      this.showFooter = this.allowedRoutes.includes(to.path);
+      this.showFooter = this.allowedFRoutes.includes(to.path);
     },
   },
 }

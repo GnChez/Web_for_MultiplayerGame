@@ -9,6 +9,9 @@
 <script>
 import ChangeUsernameForm from '@/components/ChangeUsernameForm.vue';
 export default {
+    components: {   
+        ChangeUsernameForm
+    },
 data() {
     return {
     };

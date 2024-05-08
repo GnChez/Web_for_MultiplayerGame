@@ -3,7 +3,7 @@
     <v-app-bar :elevation="5" class="py-1 px-10 black-layouts">
       <v-spacer> </v-spacer>
       <template v-slot:prepend>
-        <div @click="redirect('/home')" id="clickable">
+        <div @click="redirect('/')" id="clickable">
           <v-img
             class="mx-2"
             src="@/assets/images/robot.png"
@@ -129,7 +129,7 @@ export default {
     },
     logout() {
       this.appStore.logout();
-      this.$router.push({ path: "/home" });
+      this.$router.push({ path: "/" });
     },
   },
 };

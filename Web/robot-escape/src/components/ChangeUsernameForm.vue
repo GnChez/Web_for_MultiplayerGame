@@ -43,7 +43,7 @@
 import { useAppStore } from "../stores/app";
 import { isUsernameAvailable, updateUsername } from "@/communicationsManager";
 export default {
-  name: "ForgotPasswordForm",
+  name: "ChangeUsernameForm",
   setup() {
     const appStore = useAppStore();
     return {

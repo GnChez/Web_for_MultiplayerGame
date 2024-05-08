@@ -9,7 +9,11 @@
 <script>
 import ForgotPasswordForm from '@/components/ForgotPasswordForm.vue';
 export default {
+    components: {
+        ForgotPasswordForm
+    },
 data() {
+    
     return {
     };
 },

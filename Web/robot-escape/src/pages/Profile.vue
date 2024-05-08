@@ -1,102 +1,28 @@
 <template>
-  <v-container class="black-layouts white-colors secondfont">
-    <v-divider class="section-divider"></v-divider>
-    <v-row class="rows center">
-      <v-col cols="12" sm="6" class="center">
-        <p class="secondfont-bold">Username</p>
-      </v-col>
-      <v-col cols="12" sm="6" class="centeraligned-col">
-        <v-form class="secondfont">
-          <p>{{ this.username }}</p>
-          <v-btn
-            class="profile-button"
-            color="primary"
-            @click="redirect('/changeusername')"
-            >Change Username</v-btn
-          >
-        </v-form>
-      </v-col>
-    </v-row>
-    <v-divider class="section-divider"></v-divider>
-    <v-row class="rows">
-      <v-col cols="12" sm="6" class="center">
-        <p class="secondfont-bold">Password</p>
-      </v-col>
-      <v-col cols="12" sm="6" class="centeraligned-col">
-        <v-form>
-          <v-btn
-            class="profile-button"
-            color="primary"
-            @click="redirect('/forgotpassword')"
-            >Reset Password</v-btn
-          >
-        </v-form>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="container">
+      <ProfileComponent/>
+  </div>
+      
+  
 </template>
 
 <script>
-import { useAppStore } from '@/stores/app';
-
+import ProfileComponent from '@/components/ProfileComponent.vue';
 export default {
-  setup() {
-    const appStore = useAppStore();
-    return {
-      appStore,
-    };
-  },
-  computed: {
-    username() {
-      return this.appStore.getLoginInfo.data.username || 'Not defined';
-    },
-  },
+  components: {
+    ProfileComponent // This registers the LoginForm component locally
+},
   data() {
-    return {
-      username: 'Not defined',
-      password: '',
-    };
+      return {
+      };
   },
-  created() {
-    this.updateUsername();
-  },
-  methods: {
-    redirect(ruta) {
-      this.$router.push(ruta);
-    },
-    updateUsername() {
-      this.username = this.appStore.getLoginInfo.data.username || 'Not defined';
-    },
-    // ...
-  },
-  watch: {
-    'appStore.getLoginInfo.data.username': {
-      immediate: true,
-      handler() {
-        this.updateUsername();
-      },
-    },
-  },
+  methods: {}
 };
 </script>
 
 <style scoped>
-.rows {
-  margin: 50px;
-}
-.centeraligned-col {
-  text-align: center;
-  justify-content: center;
-}
-.section-divider {
-  background-color: white;
-}
-.profile-button {
-  margin: 15px;
-}
-.center {
+.container {
   display: flex;
-  text-align: center;
-  align-items: center;
+  justify-content: center;/* Adjust the height as needed */
 }
 </style>

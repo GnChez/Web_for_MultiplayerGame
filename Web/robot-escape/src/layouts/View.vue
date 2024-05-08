@@ -1,10 +1,9 @@
 <template>
-    <v-main>
-      <router-view style="height: 100%; "/>
-    </v-main>
-  </template>
-  
-  <script setup>
-    //
-  </script>
-  
+  <v-main>
+    <router-view/>
+  </v-main>
+</template>
+
+<script setup>
+  //
+</script>

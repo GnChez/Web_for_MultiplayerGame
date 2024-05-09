@@ -50,7 +50,7 @@
   export default {
     setup() {
       const appStore = useAppStore();
-      const username = computed(() => appStore.getLoginInfo.data.username || 'Not defined');
+      const username = appStore.getLoginInfo.data.username;
   
       // Watch for changes in username to log them
       watch(username, (newValue, oldValue) => {

@@ -98,7 +98,7 @@ export default {
   },
   data() {
     return {
-      username: "Username",
+      username: "",
       logged: false,
       menuOptions: [{ text: "Profile", ruta: "/profile" }],
       opciones: [
@@ -109,20 +109,33 @@ export default {
       ],
     };
   },
-  created() {
-    this.logged = this.appStore.isAuthenticated;
-    if (this.logged) {
-      this.username = this.appStore.getLoginInfo.data.username;
+  mounted() {
+    this.$nextTick(() => {
+      if (this.appStore.isAuthenticated) {
+        this.logged = true;
+        this.username = this.appStore.getLoginInfo.data.username;
+      }
+    });
+  },
+  watch: {
+    'appStore.isAuthenticated': function(newVal) {
+      this.logged = newVal;
+      this.username = this.appStore.getLoginInfo.username;
+    },
+    'appStore.getLoginInfo.data.username': function(newVal) {
+      if (newVal) {
+        this.username = newVal;
+      }
     }
-    console.log(this.logged);
   },
   methods: {
     redirect(ruta) {
       this.$router.push(ruta);
     },
     showUserData() {
+      const isAuth = this.appStore.isAuthenticated;
       const userData = this.appStore.getLoginInfo;
-      console.log(userData);
+      console.log("isAuth:"+isAuth+", User Data:"+userData);
     },
     download() {
       downloadGame();

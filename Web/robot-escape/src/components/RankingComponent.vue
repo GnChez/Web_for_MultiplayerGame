@@ -3,7 +3,7 @@
     <v-toolbar class="black-layouts white-colors">
       <v-toolbar-title class="medium-font secondfont-bold centered bigfont">Global Ranking</v-toolbar-title>
     </v-toolbar>
-    <v-list class="secondfont-bold gray-layouts white-colors">
+    <v-list class="secondfont-bold ">
       <v-list-item class="medium-font">
         <v-list-item-content style="display: grid; grid-template-columns: 1fr 2fr 2fr 1fr">
           <v-list-item-title class="cells">Position</v-list-item-title>
@@ -143,7 +143,7 @@ export default {
   justify-content: center;
 }
 .hoverable-list-item:hover {
-  background-color: gray;
+  background-color: lightgray;
 }
 .mainData {
   display: flex;

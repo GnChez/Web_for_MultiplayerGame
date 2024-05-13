@@ -166,8 +166,6 @@ async function login(req, res, next) {
         
         if (results.length > 0) {
           const userData = results[0];
-          console.log("Retreived password:"+userData.password)
-          console.log("Passed password:"+user.password)
           const match = await bcrypt.compare(user.password, userData.password);
           if (match) {
             console.log("Login Successful");

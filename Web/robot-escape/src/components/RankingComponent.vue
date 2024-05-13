@@ -82,9 +82,10 @@
         <v-col cols="1" class="secondfont-bold" style="padding-right: 10px">
           {{ stage.stage }}
         </v-col>
-        <v-col style="display: flex; padding: 0 10px">
+        <v-col style="display: flex; padding: 0 10px" class="centered">
           <Bar
             id="my-chart-id"
+            :key="this.bar_stats"
             :options="stage.options"
             :data="stage.data"
             :plugins="plugins"
@@ -99,6 +100,47 @@
         <v-card-text class="secondfont"
           >Date: {{ formatDate(partida.complete_date) }}</v-card-text
         >
+      </div>
+    </div>
+  </v-card>
+  <v-card v-if="!cambiar && auth" class="personalGameData">
+    <div
+      style="
+        background: gray;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+      "
+      class="centered"
+    >
+      <v-card-title class="centered white-colors secondfont-bold"
+        >PERSONAL DATA</v-card-title
+      >
+    </div>
+    <div class="partida secondfont grid-container" style="padding: 20px">
+      <div class="grid-item centered">
+        <v-card-text class="secondfont-bold">Hours Played</v-card-text>
+        <v-card-text class="bigger-font secondfont-bold">{{
+          this.secondsToHours(this.stats.timeplayed)
+        }}</v-card-text>
+      </div>
+      <div class="grid-item centered">
+        <v-card-text class="secondfont-bold">Games</v-card-text>
+        <v-card-text class="bigger-font secondfont-bold">{{
+          stats.matchs_registered
+        }}</v-card-text>
+      </div>
+      <div class="grid-item centered">
+        <v-card-text class="secondfont-bold">Frequent Partner</v-card-text>
+        <v-card-text class="bigger-font secondfont-bold">{{
+          this.stats.frequent_Partner
+        }}</v-card-text>
+      </div>
+      <div class="grid-item centered">
+        <v-card-text class="secondfont-bold">Best Time</v-card-text>
+        <v-card-text class="bigger-font secondfont-bold">{{
+          this.stats.bestTime
+        }}</v-card-text>
       </div>
     </div>
   </v-card>
@@ -117,7 +159,11 @@ import {
   scales,
 } from "chart.js";
 import { colors } from "../stackcolors";
-import { getTopMatches } from "@/communicationsManager.js";
+import {
+  getTopMatches,
+  getPersonalStatsData,
+} from "@/communicationsManager.js";
+import { useAppStore } from "@/stores/app";
 
 ChartJS.register(
   Title,
@@ -133,21 +179,57 @@ export default {
   components: { Bar },
   data() {
     return {
+      bar_stats: 0,
+      auth: false,
+      stats: {
+        timeplayed: "14:30:00",
+        matchs_registered: 3,
+        frequent_Partner: "John Doe",
+        bestTime: "00:30:00",
+      },
+
       datapack: [],
       cambiar: false,
       partida: null,
       matches: [],
     };
   },
+  setup() {
+    const appStore = useAppStore();
+    return {
+      appStore,
+    };
+  },
+  mounted() {
+    this.auth = this.appStore.isAuthenticated;
+    console.log(this.appStore.getLoginInfo);
+    if (this.auth) {
+      this.getPersonalStatsData(this.appStore.getLoginInfo.data.id);
+    }
+  },
   // ...
   created() {
     this.getTopMatches();
   },
   methods: {
+    async getPersonalStatsData(playerId) {
+      try {
+        const stats = await getPersonalStatsData(playerId);
+        this.stats = {
+          timeplayed: stats.timePlayed,
+          matchs_registered: stats.matchs_registered,
+          frequent_Partner: stats.frequentPartner,
+          bestTime: stats.bestTime,
+        };
+      } catch (error) {
+        console.error("Failed to get personal stats:", error);
+      }
+    },
     async getTopMatches() {
       try {
         const matches = await getTopMatches();
         this.matches = matches;
+        console.log(this.matches);
       } catch (error) {
         console.error("Failed to get top matches:", error);
       }
@@ -157,9 +239,14 @@ export default {
       if (this.cambiar) {
         this.partida = match;
         this.datapack = this.buildDataPack(match);
+        this.bar_stats++;
         this.cargado(this.datapack);
         console.log(this.datapack);
       }
+    },
+    secondsToHours(seconds) {
+      const hours = seconds / 3600;
+      return hours.toFixed(1);
     },
     formatTime(seconds) {
       const hours = Math.floor(seconds / 3600);
@@ -178,19 +265,25 @@ export default {
       return `${day}/${month}/${year}`;
     },
     timeToSeconds(time) {
+      if (typeof time !== "string") {
+        console.error("Invalid time value:", time);
+        return 0;
+      }
+
+      console.log("Tiempos: " + time);
       const [hours, minutes, seconds] = time.split(":").map(Number);
+
       return hours * 3600 + minutes * 60 + seconds;
     },
     padZero(value) {
       return value < 10 ? "0" + value : value;
     },
     cargado(datapack) {
-      console.log("cargando");
       let suma = [];
       datapack.forEach((dato, index) => {
         dato.data.datasets.forEach((dataset) => {
-          console.log("DATA:" + dataset.data);
-          suma[index] = (suma[index] || 0) + this.timeToSeconds(dataset.data);
+          suma[index] =
+            (suma[index] || 0) + this.timeToSeconds(dataset.data[0]);
         });
       });
       console.log(suma);
@@ -199,6 +292,8 @@ export default {
       });
     },
     buildDataPack(matches) {
+      console.log("MATCHES:")
+      console.log(matches)
       let i = 0;
       return matches.stages.map((stage) => ({
         stage: stage.name,
@@ -206,10 +301,10 @@ export default {
           labels: [stage.name],
           datasets: stage.rooms.map((room) => ({
             label: room.name,
-            data: room.time,
-            backgroundColor: colors[i++ % colors.length].backgroundColor,
+            data: [this.timeToSeconds(room.time)],
+            backgroundColor: colors[i % colors.length].backgroundColor,
             hoverBackgroundColor:
-              colors[i % colors.length].hoverBackgroundColor,
+              colors[i++ % colors.length].hoverBackgroundColor,
           })),
         },
         time: stage.time,
@@ -283,5 +378,23 @@ export default {
   border: none;
   box-shadow: none;
   width: 100%;
+}
+.personalGameData {
+  position: relative;
+  margin: 30px;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+}
+.grid-item {
+  flex-direction: column;
+}
+.inline-text {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 }
 </style>

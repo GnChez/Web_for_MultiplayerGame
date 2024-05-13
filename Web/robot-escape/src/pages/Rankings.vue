@@ -1,6 +1,7 @@
 <template>
-    <div class="container">
-        <RankingComponent/>
+    <div class="position-relative">
+        <RankingComponent class="ranking-panel"/>
+        
     </div>
         
     
@@ -8,12 +9,15 @@
 
 <script>
 import RankingComponent from '@/components/RankingComponent.vue';
+
 export default {
     components: {
-        RankingComponent // This registers the LoginForm component locally
+        RankingComponent 
   },
+  
     data() {
         return {
+            auth: false
         };
     },
     methods: {}
@@ -21,9 +25,16 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;/* Adjust the height as needed */
+.position-relative {
+    position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.ranking-panel {
+    display: inline-block;
 }
 </style>

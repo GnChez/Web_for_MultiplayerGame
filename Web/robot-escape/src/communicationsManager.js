@@ -170,6 +170,29 @@ export async function getTopMatches() {
   }
 }
 
+export async function getPersonalStatsData(playerId) {
+  try {
+    const response = await fetch(`${SERVER_URL}/data/getPersonalStatsData/${playerId}`, {
+      method: 'GET',
+      credentials: 'include', 
+      mode: 'cors'         
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Network response was not ok. Status: ${response.status}, Text: ${text}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+    throw error;
+  }
+}
+
 
 
 //REGENERAR CONTRASEÑA

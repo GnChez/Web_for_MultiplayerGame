@@ -30,7 +30,7 @@
           <div>{{ match.host_username }}</div>
           <div>{{ match.client_username }}</div>
           <div>{{ match.time }}</div>
-          <div>{{ match.date }}</div>
+          <div>{{ this.formatDate(match.complete_date) }}</div>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -54,7 +54,8 @@
     <div class="partida secondfont" style="padding: 20px">
       <div class="mainData">
         <v-card-title class="bigger-font"
-          >Partida {{ partida.match }}</v-card-title
+          >{{ partida.host_username }} 🏆
+          {{ partida.client_username }}</v-card-title
         >
         <v-card-subtitle class="biggest-font">{{
           partida.time
@@ -79,7 +80,7 @@
         style="margin-bottom: 20px; white-space: nowrap"
       >
         <v-col cols="1" class="secondfont-bold" style="padding-right: 10px">
-          STAGE {{ stage.stage }}
+          {{ stage.stage }}
         </v-col>
         <v-col style="display: flex; padding: 0 10px">
           <Bar
@@ -145,7 +146,7 @@ export default {
   methods: {
     async getTopMatches() {
       try {
-        const matches = await getTopMatches(); 
+        const matches = await getTopMatches();
         this.matches = matches;
       } catch (error) {
         console.error("Failed to get top matches:", error);
@@ -156,7 +157,7 @@ export default {
       if (this.cambiar) {
         this.partida = match;
         this.datapack = this.buildDataPack(match);
-        this.cargado(this.datapack); 
+        this.cargado(this.datapack);
         console.log(this.datapack);
       }
     },
@@ -176,17 +177,23 @@ export default {
 
       return `${day}/${month}/${year}`;
     },
+    timeToSeconds(time) {
+      const [hours, minutes, seconds] = time.split(":").map(Number);
+      return hours * 3600 + minutes * 60 + seconds;
+    },
     padZero(value) {
       return value < 10 ? "0" + value : value;
     },
     cargado(datapack) {
-      console.log(datapack);
+      console.log("cargando");
       let suma = [];
       datapack.forEach((dato, index) => {
         dato.data.datasets.forEach((dataset) => {
-          suma[index] += dataset.data[0];
+          console.log("DATA:" + dataset.data);
+          suma[index] = (suma[index] || 0) + this.timeToSeconds(dataset.data);
         });
       });
+      console.log(suma);
       datapack.forEach((dato, index) => {
         dato.options.scales.x.max = suma[index];
       });
@@ -194,7 +201,7 @@ export default {
     buildDataPack(matches) {
       let i = 0;
       return matches.stages.map((stage) => ({
-        stage: stage.id,
+        stage: stage.name,
         data: {
           labels: [stage.name],
           datasets: stage.rooms.map((room) => ({
@@ -254,8 +261,8 @@ export default {
         next();
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style>

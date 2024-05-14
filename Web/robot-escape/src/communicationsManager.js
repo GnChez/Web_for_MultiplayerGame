@@ -1,4 +1,4 @@
-export const SERVER_URL = /*"http://localhost:3666"*/"https://robot-escape.dam.inspedralbes.cat:3666"
+export const SERVER_URL = /*"http://localhost:3666"*/"http://robot-escape.dam.inspedralbes.cat:3666"
 
 export async function downloadImage(formData) {
     const response = await fetch(`${SERVER_URL}/users/downloadImage`, {

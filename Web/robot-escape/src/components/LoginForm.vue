@@ -73,7 +73,6 @@ export default {
         .login()
         .then((result) => {
           if (result) {
-            console.log(result);
             this.$router.push({ path: "/" });
           } else {
             console.log("Login failed");

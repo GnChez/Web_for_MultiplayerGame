@@ -2,17 +2,22 @@
     <div class="container">
         <div class="image">
             <div class="inside-image"></div>
-            <button class="image-button secondfont-bold">DOWNLOAD NOW!</button> <!-- Button added here -->
+            <button class="image-button secondfont-bold" @click="downloadGame">DOWNLOAD NOW!</button> <!-- Button added here -->
         </div>
     </div>
 </template>
 
 <script>
+import { downloadGame } from "@/communicationsManager";
 export default {
     data() {
         return {};
     },
-    methods: {}
+    methods: {
+        downloadGame() {
+            downloadGame();
+        }
+    }
 };
 </script>
 

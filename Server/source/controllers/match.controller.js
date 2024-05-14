@@ -177,9 +177,84 @@ async function getMatchFromId(id) {
   });
 }
 
+async function getTopMatches(req, res, next) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((error, connection) => {
+      if (error) {
+        reject(error); // Handle connection errors
+        return;
+      }
+      // Query to get the top 10 completed matches and their associated stages and rooms
+      connection.query(
+        `SELECT M.id, M.complete_date, M.time, M.id_host, U1.username as host_username, 
+        M.id_client, U2.username as client_username, 
+        S.id as stage_id, S.order as stage_order, S.name as stage_name, MS.time as match_stage_time, S.order as stage_order,
+        R.id as room_id, MR.time as match_room_time, R.name as room_name
+        FROM \`MATCH\` M 
+        JOIN \`user\` U1 ON M.id_host = U1.id 
+        JOIN \`user\` U2 ON M.id_client = U2.id 
+        JOIN \`MATCH_STAGE\` MS ON M.id = MS.id_match
+        JOIN \`STAGE\` S ON MS.id_stage = S.id
+        JOIN \`MATCH_ROOM\` MR ON M.id = MR.id_match 
+        JOIN \`ROOM\` R ON MR.id_room = R.id
+        WHERE M.completed = 1
+        ORDER BY M.time ASC, S.order ASC, R.id ASC
+        LIMIT 10`,
+        (errorQuery, results) => {
+          connection.release(); // Always release the connection after usage
+          if (errorQuery) {
+            reject(errorQuery); // Handle query errors
+          } else {
+            const matches = results.reduce((acc, row) => {
+              // Find or create the match object in the accumulator
+              let match = acc.find((m) => m.id === row.id);
+              if (!match) {
+                match = {
+                  id: row.id,
+                  complete_date: row.complete_date,
+                  time: row.time,
+                  id_host: row.id_host,
+                  host_username: row.host_username,
+                  id_client: row.id_client,
+                  client_username: row.client_username,
+                  stages: [],
+                };
+                acc.push(match);
+              }
+              // Find or create the stage object within the match
+              let stage = match.stages.find((s) => s.id === row.stage_id);
+              if (!stage) {
+                stage = {
+                  id: row.stage_id,
+                  name: row.stage_name,
+                  time: row.match_stage_time,
+                  rooms: [],
+                };
+                match.stages.push(stage);
+              }
+              // Append the room to the appropriate stage
+              stage.rooms.push({
+                id: row.room_id,
+                name: row.room_name,
+                order: row.stage_order,
+                time: row.match_room_time,
+              });
+              return acc;
+            }, []);
+            console.log(matches); // Log the structured data for debugging
+            res.json(matches); // Send the structured data as JSON response
+            resolve(matches);
+          }
+        }
+      );
+    });
+  });
+}
+
 module.exports = {
   getMatches,
   getMatchById,
+  getTopMatches,
   startMatch,
   endMatch,
   deleteMatch,

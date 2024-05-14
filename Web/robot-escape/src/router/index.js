@@ -21,10 +21,8 @@ const requireAuth = (to, from, next) => {
 
 //FOR THE AUTOLOGIN FUNCTION IN EVERY ROUTE
 const auth = (to, from, next) => {
-  console.log("auth function triggered");
   const store = useAppStore();
   if (!store.isAuthenticated) {
-    console.log("Trying to auth")
     store.hasCookieId().then(() => {
       next();
     });

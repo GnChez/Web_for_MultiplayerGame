@@ -1,88 +1,97 @@
 <template>
-    <div>
-        <ul v-for="conjunto in preguntas.FAQ" class="faq-list">
-        <li>
-            <p class="secondfont-bold">{{ conjunto.pregunta }}</p>
-            <ul>
-                <li>
-                    <p class="secondfont">{{ conjunto.respuesta }}</p>
-                </li>
-            </ul>
-        </li>
+  <div>
+    <ul v-for="conjunto in preguntas.FAQ" class="faq-list">
+      <li>
+        <p class="secondfont-bold">{{ conjunto.question }}</p>
+        <ul>
+          <li>
+            <p class="secondfont">{{ conjunto.answer }}</p>
+          </li>
+        </ul>
+      </li>
     </ul>
-    </div>
-    
+  </div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            preguntas: {
-                "nombre_juego": "Robot Escape",
-                FAQ: [
-                    {
-                        "pregunta": "¿Qué tipo de juego es Robot Escape?",
-                        "respuesta": "Robot Escape es un juego de acción y aventuras en mundo abierto donde los jugadores pueden explorar un vasto mundo, completar misiones, personalizar su personaje y enfrentarse a desafiantes enemigos."
-                    },
-                    {
-                        "pregunta": "¿En qué plataformas está disponible Robot Escape?",
-                        "respuesta": "Robot Escape está disponible actualmente en PC, PlayStation, Xbox y Nintendo Switch."
-                    },
-                    {
-                        "pregunta": "¿Cuál es el objetivo principal del juego?",
-                        "respuesta": "El objetivo principal de Robot Escape es completar la historia principal mientras exploras el mundo, enfrentas enemigos y adquieres habilidades y equipamiento para mejorar a tu personaje."
-                    },
-                    {
-                        "pregunta": "¿Hay multijugador en Robot Escape?",
-                        "respuesta": "No, Robot Escape es un juego para un jugador."
-                    },
-                    {
-                        "pregunta": "¿Cuánto tiempo dura la historia principal?",
-                        "respuesta": "La duración de la historia principal puede variar según el estilo de juego del jugador, pero en promedio, tomará alrededor de [X] horas completarla."
-                    },
-                    {
-                        "pregunta": "¿Hay contenido adicional después de terminar la historia principal?",
-                        "respuesta": "Sí, Robot Escape ofrece contenido adicional en forma de misiones secundarias, desafíos y eventos que los jugadores pueden completar después de terminar la historia principal."
-                    },
-                    {
-                        "pregunta": "¿Puedo personalizar a mi personaje en Robot Escape?",
-                        "respuesta": "Sí, puedes personalizar a tu personaje con diferentes atuendos, armas, y habilidades a medida que avanzas en el juego."
-                    },
-                    {
-                        "pregunta": "¿Hay algún requisito de edad para jugar Robot Escape?",
-                        "respuesta": "La clasificación por edades puede variar según la región, pero en general, Robot Escape está recomendado para jugadores mayores de [X] años debido a su contenido de violencia ficticia y temáticas adultas."
-                    },
-                    {
-                        "pregunta": "¿Hay microtransacciones en Robot Escape?",
-                        "respuesta": "Sí, Robot Escape ofrece la opción de comprar contenido adicional, como skins, expansiones y paquetes de objetos a través de microtransacciones, pero el juego no depende de ellas para progresar."
-                    },
-                    {
-                        "pregunta": "¿Cuál es la política de soporte al cliente para Robot Escape?",
-                        "respuesta": "Si experimentas algún problema técnico o necesitas ayuda con el juego, puedes ponerte en contacto con nuestro equipo de soporte al cliente a través de [correo electrónico / sitio web / foros] y estaremos encantados de ayudarte."
-                    }
-                ]
-            }
-
-        };
-    },
-    methods: {}
+  data() {
+    return {
+      preguntas: {
+        game_name: "Robot Escape",
+        FAQ: [
+          {
+            question: "What type of game is Robot Escape?",
+            answer:
+              "Robot Escape is a multiplayer puzzle game for consoles and PC, divided into multiple stages, where players take on the role of two robots trapped in a giant industrial complex.",
+          },
+          {
+            question: "On which platforms is Robot Escape available?",
+            answer:
+              "Robot Escape is currently available on PC, PlayStation, Xbox, and Nintendo Switch.",
+          },
+          {
+            question: "What is the main objective of the game?",
+            answer:
+              "The main objective of Robot Escape is to solve the puzzles of each stage while cooperating with another player to navigate through the industrial complex.",
+          },
+          {
+            question: "Is there multiplayer in Robot Escape?",
+            answer:
+              "Yes, Robot Escape is a multiplayer game designed for cooperative play.",
+          },
+          {
+            question: "How long does the main storyline last?",
+            answer:
+            "The duration of the main story can vary depending on the player's play style. On average, it will initially take about [X] hours to complete. However, the development team is continuously updating the game with new additional content, offering new experiences and challenges that can extend this time.",
+          },
+          {
+            question:
+              "Is there additional content after completing the main story?",
+            answer:
+              "Yes, Robot Escape offers additional content in the form of side missions, challenges, and events that players can complete after finishing the main story.",
+          },
+          {
+            question: "Can I customize my character in Robot Escape?",
+            answer:
+              "No, in Robot Escape players cannot customize their characters, but they can play as one of the two robots in the game.",
+          },
+          {
+            question: "Is there an age requirement to play Robot Escape?",
+            answer:
+            "There is no age requirement for playing Robot Escape, making it accessible to players of all ages.",
+          },
+          {
+            question: "Are there microtransactions in Robot Escape?",
+            answer:
+              "No, Robot Escape does not have microtransactions; all content is accessible through gameplay.",
+          },
+          {
+            question: "What is the customer support policy for Robot Escape?",
+            answer:
+              "If you experience any technical issues or need help with the game, you can contact our customer support team through [email/website/forums], and we will be happy to assist you.",
+          },
+        ],
+      },
+    };
+  },
+  methods: {},
 };
 </script>
 
 <style scoped>
 .faq-list {
-    margin: 20px 15%;
-    list-style-type: none;
-    padding: 0;
+  margin: 20px 15%;
+  list-style-type: none;
+  padding: 0;
 }
 
 .faq-list li {
-    margin-bottom: 10px;
-    line-height: 1.6; /* Improves readability */
+  margin-bottom: 10px;
+  line-height: 1.6; /* Improves readability */
 }
 
 .faq-list li ul {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 </style>

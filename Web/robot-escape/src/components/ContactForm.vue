@@ -78,8 +78,8 @@ const v$ = useVuelidate(rules, state)
 
 const sendEmail = async (e) => {
   e.preventDefault();
-  console
-  emailjs.sendForm('service_8ncygz4', 'template_999xbds', e.target, 'KVD-Qkw2Q00oW7KUu', { name: state.name, lastname: state.lastname, email: state.email, subject: state.subject, message: state.message })
+  console.log(state)
+  emailjs.send('service_8ncygz4', 'template_7fi1huh', e.target, 'KVD-Qkw2Q00oW7KUu', { name: state.name, lastname: state.lastname, email: state.email, subject: state.subject, message: state.message })
     .then((response) => {
       console.log('SUCCESS!', response.status, response.text);
     }, (error) => {

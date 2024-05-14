@@ -66,13 +66,6 @@ async function getMatchStageDataByStageId(req, res, next) {
 
 async function enterStage(req, res, next) {
   let data = req.body;
-  let stageStartTime = new Date();
-  stageStartTime.setHours(stageStartTime.getHours() + 2);
-  let formattedDate = stageStartTime
-    .toISOString()
-    .slice(0, 19)
-    .replace("T", " ");
-
   try {
     const match = await getMatchFromId(data.id_match);
     const stage = await getStageFromId(data.id_stage);
@@ -87,8 +80,8 @@ async function enterStage(req, res, next) {
       }
 
       connection.query(
-        `INSERT INTO MATCH_STAGE (start_time, id_match, id_stage) VALUES (?, ?, ?)`,
-        [formattedDate, data.id_match, data.id_stage],
+        `INSERT INTO MATCH_STAGE (id_match, id_stage) VALUES (?, ?)`,
+        [data.id_match, data.id_stage],
         (errorQuery, results) => {
           connection.release();
           if (errorQuery) {
@@ -105,16 +98,13 @@ async function enterStage(req, res, next) {
 
 async function endStage(req, res, next) {
   let data = req.body;
-  let stageEndTime = new Date();
-  stageEndTime.setHours(stageEndTime.getHours() + 2);
-  let formattedDate = stageEndTime.toISOString().slice(0, 19).replace("T", " ");
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
     connection.query(
-      `UPDATE MATCH_STAGE SET end_time=? WHERE (id_match=? AND id_stage=?)`,
-      [formattedDate, data.id_match, data.id_stage],
+      `UPDATE MATCH_STAGE SET time=? WHERE (id_match=? AND id_stage=?)`,
+      [data.time, data.id_match, data.id_stage],
       (errorQuery, results) => {
         connection.release(); // Always release connection whether there's an error or not
         if (errorQuery) {

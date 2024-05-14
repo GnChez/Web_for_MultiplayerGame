@@ -36,6 +36,19 @@ async function getStageById(req, res, next) {
     next(error); // Pass any errors to the Express error-handling middleware
   }
 }
+async function getStageByName(req, res, next) {
+  const stageName = req.params.name;
+  try {
+    const results = await getStageFromName(stageName);
+    if (results.length === 0) {
+      res.status(404).send({ msg: "Stage not found" });
+    } else {
+      res.json(results[0]); // Assuming 'id' is unique, there should only be one result
+    }
+  } catch (error) {
+    next(error); // Pass any errors to the Express error-handling middleware
+  }
+}
 
 async function createStage(req, res, next) {
   let stage = req.body;
@@ -179,6 +192,28 @@ async function getStageFromId(id) {
     });
   });
 }
+async function getStageFromName(name) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((error, connection) => {
+      if (error) {
+        reject(error); // Reject the promise with the error
+        return;
+      }
+      connection.query(
+        "SELECT * FROM STAGE WHERE name = ?",
+        [name],
+        (errorQuery, results) => {
+          connection.release(); // Always release connection whether there's an error or not
+          if (errorQuery) {
+            reject(errorQuery); // Reject the promise with the query error
+          } else {
+            resolve(results); // Resolve the promise with the query results
+          }
+        }
+      );
+    });
+  });
+}
 async function getStageRooms(req, res, next) {
   const stageId = req.params.id;
   pool.getConnection((error, connection) => {
@@ -226,6 +261,7 @@ async function getStageFromId(id) {
 module.exports = {
   getStages,
   getStageById,
+  getStageByName,
   createStage,
   updateStage,
   completeStage,

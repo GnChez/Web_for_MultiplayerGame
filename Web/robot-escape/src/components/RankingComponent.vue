@@ -265,10 +265,6 @@ export default {
       return `${day}/${month}/${year}`;
     },
     timeToSeconds(time) {
-      if (typeof time !== "string") {
-        console.error("Invalid time value:", time);
-        return 0;
-      }
 
       console.log("Tiempos: " + time);
       const [hours, minutes, seconds] = time.split(":").map(Number);
@@ -283,7 +279,7 @@ export default {
       datapack.forEach((dato, index) => {
         dato.data.datasets.forEach((dataset) => {
           suma[index] =
-            (suma[index] || 0) + this.timeToSeconds(dataset.data[0]);
+            (suma[index] || 0) + dataset.data[0];
         });
       });
       console.log(suma);

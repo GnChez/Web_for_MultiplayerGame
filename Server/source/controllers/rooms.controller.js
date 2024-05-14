@@ -39,6 +39,22 @@ async function getRoomById(req, res, next) {
     });
   }
 
+  async function getRoomByName(req, res, next) {
+    roomName = req.params.name;
+    pool.getConnection((error, connection) => {
+      if (error) {
+        return next(error); // Handle the error in an Express error-handling middleware
+      }
+      connection.query("SELECT * FROM ROOM WHERE name = ?", roomName, (errorQuery, results) => {
+        connection.release(); // Always release connection whether there's an error or not
+        if (errorQuery) {
+          return next(errorQuery); // Send the error to the next error-handling middleware
+        }
+        res.json(results); // Send the results back to the client as JSON
+      });
+    });
+  }
+
 async function createRoom(req, res, next) {
   let room = req.body;
   pool.getConnection((error, connection) => {
@@ -102,6 +118,7 @@ async function deleteRoom(req, res, next) {
 module.exports = {
   getRooms,
   getRoomById,
+  getRoomByName,
   createRoom,
   updateRoom,
   deleteRoom,

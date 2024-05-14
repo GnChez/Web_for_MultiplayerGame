@@ -10,7 +10,6 @@ router.get('/isUsernameAvailable/:username',userController.isUsernameAvailable);
 router.get('/isEmailAvailable/:email',userController.isEmailAvailable);
 router.get('/getLogin', userController.getLogin);
 router.post('/login',userController.login); 
-router.post('/loginGoogle',userController.loginGoogle);   
 router.get('/logout',userController.logout);
 router.post('/regeneratePassword',userController.regeneratePwd); 
 router.post('/updatePassword/:id',userController.updatePassword);

@@ -185,10 +185,6 @@ async function login(req, res, next) {
   });
 }
 
-async function loginGoogle(req, res, next) {
-
-}
-
 async function getLogin(req, res, next) {
   if (req.session.user?.email) {
     res.json(req.session.user);
@@ -213,7 +209,6 @@ async function logout(req, res, next) {
 
 async function regeneratePwd(req, res, next) {
   try {
-      //console.log(req.body);
       if (req.session.user.password == req.body.lastPassword) {
           const response = await new Promise((resolve, reject) => {
               pool.getConnection((error, connection) => {
@@ -232,7 +227,6 @@ async function regeneratePwd(req, res, next) {
                 })
           });
           req.session.user.contrasena = req.body.contrasenyaNueva;
-          //console.log("login contrasenya cambiada", req.session.user);
           res.json(response); // Envía la respuesta si la comparación de contraseñas es correcta   funcio
         });
       } else {
@@ -293,7 +287,6 @@ async function isUsernameAvailable(req, res, next) {
           return next(errorQuery);
         }
         if (results.length === 0) {
-          console.log("Username disponible");
           res.json({ available: true });
         } else {
           console.log("Username no disponible");
@@ -318,7 +311,6 @@ async function isEmailAvailable(req, res, next) {
           return next(errorQuery);
         }
         if (results.length === 0) {
-          console.log("Email disponible");
           res.json({ available: true });
         } else {
           console.log("Email no disponible");
@@ -360,7 +352,6 @@ module.exports = {
   getUserFromId,
   getUsernames,
   login,
-  loginGoogle,
   getLogin,
   logout,
   regeneratePwd,

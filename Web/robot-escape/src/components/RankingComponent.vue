@@ -24,9 +24,9 @@
         @click="especifico(match)"
       >
         <v-list-item-content
-          style="display: grid; grid-template-columns: 1fr 2fr 2fr 1fr 1fr"
+          style="display: grid; grid-template-columns: 1fr 2fr 2fr 1fr 1fr; align-items: center;"
         >
-          <div>{{ index + 1 }}</div>
+          <div class="medium-font">{{ getMedal(index + 1) }}</div>
           <div>{{ match.host_username }}</div>
           <div>{{ match.client_username }}</div>
           <div>{{ match.time }}</div>
@@ -232,6 +232,18 @@ export default {
         console.log(this.matches);
       } catch (error) {
         console.error("Failed to get top matches:", error);
+      }
+    },
+    getMedal(position) {
+      switch (position) {
+        case 1:
+          return '🥇';
+        case 2:
+          return '🥈';
+        case 3:
+          return '🥉';
+        default:
+          return '🏅';
       }
     },
     especifico(match) {

@@ -35,13 +35,6 @@
       </template>
 
       <template v-slot:append>
-        <v-btn variant="plain" @click="showUserData()"
-          ><v-icon
-            icon="$eye"
-            size="x-large"
-            class="black-layouts white-colors"
-          ></v-icon>
-        </v-btn>
         <v-btn variant="flat" class="mx-5" @click="download()"
           ><v-icon icon="$descargar" size="x-large"></v-icon>
           Download
@@ -131,11 +124,6 @@ export default {
   methods: {
     redirect(ruta) {
       this.$router.push(ruta);
-    },
-    showUserData() {
-      const isAuth = this.appStore.isAuthenticated;
-      const userData = this.appStore.getLoginInfo;
-      console.log("isAuth:"+isAuth+", User Data:"+userData);
     },
     download() {
       downloadGame();

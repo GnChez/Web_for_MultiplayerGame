@@ -40,12 +40,6 @@ async function getMatchById(req, res, next) {
 
 async function startMatch(req, res, next) {
   let match = req.body;
-  let matchStartTime = new Date();
-  matchStartTime.setHours(matchStartTime.getHours() + 2);
-  let formattedDate = matchStartTime
-    .toISOString()
-    .slice(0, 19)
-    .replace("T", " ");
 
   try {
     const hostUser = await getUserFromId(match.id_host);
@@ -56,15 +50,6 @@ async function startMatch(req, res, next) {
         .status(404)
         .json({ message: "One or both users do not exist" });
     }
-    const repeatedPlayer = await getRepeatedPlayerInStartedMatch(match.id_host);
-    const repeatedPlayer2 = await getRepeatedPlayerInStartedMatch(
-      match.id_client
-    );
-    if (repeatedPlayer2.length > 0 || repeatedPlayer.length > 0) {
-      return res
-        .status(400)
-        .json({ message: "One or both users are already in a match" });
-    }
 
     pool.getConnection((error, connection) => {
       if (error) {
@@ -72,8 +57,8 @@ async function startMatch(req, res, next) {
       }
 
       connection.query(
-        `INSERT INTO \`MATCH\` (start_time, id_host, id_client) VALUES (?, ?, ?)`,
-        [formattedDate, match.id_host, match.id_client],
+        `INSERT INTO \`MATCH\` (id_host, id_client) VALUES ( ?, ?)`,
+        [match.id_host, match.id_client],
         (errorQuery, results) => {
           connection.release(); // Always release connection whether there's an error or not
           if (errorQuery) {
@@ -90,24 +75,22 @@ async function startMatch(req, res, next) {
 
 async function endMatch(req, res, next) {
   let id = req.params.id;
-  let matchEndTime = new Date();
-  matchEndTime.setHours(matchEndTime.getHours() + 2);
-  let formattedDate = matchEndTime.toISOString().slice(0, 19).replace("T", " ");
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware
     }
-    connection.query(
-      `UPDATE \`MATCH\` SET end_time=? WHERE id=?`,
-      [formattedDate, id],
-      (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        res.json(results); // Send the results back to the client as JSON
+    connection.query(`UPDATE \`MATCH\`
+    SET time = SEC_TO_TIME(
+            (SELECT SUM(TIME_TO_SEC(time)) FROM MATCH_STAGE WHERE id_match = ?)
+        ),
+        complete_date = CURDATE()
+    WHERE id = ?;`,[id,id], (errorQuery, results) => {
+      connection.release(); // Always release connection whether there's an error or not
+      if (errorQuery) {
+        return next(errorQuery); // Send the error to the next error-handling middleware
       }
-    );
+      res.json(results); // Send the results back to the client as JSON
+    });
   });
 }
 

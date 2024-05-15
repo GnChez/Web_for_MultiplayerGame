@@ -96,12 +96,30 @@ async function enterStage(req, res, next) {
   }
 }
 
+function sumTimes(timeStrings) {
+  // Convert time strings to total seconds
+  const totalSeconds = timeStrings.reduce((acc, timeString) => {
+      const [hours, minutes, seconds] = timeString.split(':').map(Number);
+      return acc + (hours * 3600) + (minutes * 60) + seconds;
+  }, 0);
+
+  // Convert total seconds back to 'hh:mm:ss' format
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  // Format hours, minutes, and seconds with leading zeros
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
 async function endStage(req, res, next) {
   let data = req.body;
-  let timeComplete = 0;
-  data.rooms.forEach(room => {
-    timeComplete += room.time;
-  });
+  const times = data.rooms.map(room => room.time);
+  let timeComplete = sumTimes(times);
   pool.getConnection((error, connection) => {
     if (error) {
       return res.status(500).json({ error: error.message });

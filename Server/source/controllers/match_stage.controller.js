@@ -98,22 +98,38 @@ async function enterStage(req, res, next) {
 
 async function endStage(req, res, next) {
   let data = req.body;
-  pool.getConnection((error, connection) => {
-    if (error) {
-      return next(error); // Handle the error in an Express error-handling middleware
-    }
-    connection.query(
-      `UPDATE MATCH_STAGE SET time=? WHERE (id_match=? AND id_stage=?)`,
-      [data.time, data.id_match, data.id_stage],
-      (errorQuery, results) => {
-        connection.release(); // Always release connection whether there's an error or not
-        if (errorQuery) {
-          return next(errorQuery); // Send the error to the next error-handling middleware
-        }
-        res.json(results); // Send the results back to the client as JSON
+  let timeComplete = 0;
+data.rooms.forEach(room => {
+  timeComplete += room.time;
+});
+pool.getConnection((error, connection) => {
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+  connection.query(
+    `UPDATE MATCH_STAGE SET time=? WHERE (id_match=? AND id_stage=?)`,
+    [timeComplete, data.id_match, data.id_stage],
+    (errorQuery, results) => {
+      connection.release(); // Always release connection whether there's an error or not
+      if (errorQuery) {
+        return res.status(500).json({ error: errorQuery.message });
       }
-    );
+    }
+  );
+  data.rooms.forEach(room => {
+    connection.query(
+      `INSERT INTO MATCH_ROOM (id_match, id_room, time) VALUES (?,?,?)`,
+      [data.id_match, room.id, room.time],
+      (errorQuery, results) => {
+        connection.release();
+        if (errorQuery) {
+          return res.status(500).json({ error: errorQuery.message });
+        }
+      } 
+    )
   });
+  res.json({ message: "Stage completed" });
+});
 }
 
 async function deleteStageMatch(req, res, next) {

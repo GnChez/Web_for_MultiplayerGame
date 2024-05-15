@@ -70,7 +70,7 @@ async function createStage(req, res, next) {
   });
 }
 async function playStage(req, res, next) {
-  let stageId = req.params.id;
+  let stageId = req.body.id_stage
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware
@@ -89,7 +89,7 @@ async function playStage(req, res, next) {
   });
 }
 async function completeStage(req, res, next) {
-  let stageId = req.params.id;
+  let stageId = req.body.id_stage;
   pool.getConnection((error, connection) => {
     if (error) {
       return next(error); // Handle the error in an Express error-handling middleware

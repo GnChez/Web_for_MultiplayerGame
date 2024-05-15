@@ -9,8 +9,8 @@ router.get('/getStageById/:id',stagesController.getStageById);
 router.get('/getStageRooms/:id',stagesController.getStageRooms);
 router.post('/createStage',stagesController.createStage);
 router.post('/updateStage/:id',stagesController.updateStage);
-router.post('/playStage/:id',stagesController.playStage);  
-router.post('/completeStage/:id',stagesController.completeStage); 
+router.post('/playStage',stagesController.playStage);  
+router.post('/completeStage',stagesController.completeStage); 
 router.delete('/deleteStage/:id',stagesController.deleteStage);
 
 

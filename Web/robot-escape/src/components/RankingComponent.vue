@@ -214,14 +214,14 @@ export default {
   methods: {
     async getPersonalStatsData(playerId) {
       try {
-        const stats = await getPersonalStatsData(playerId);
-        if (this.stats != null) {
-          console.log(this.stats)
+        const statsReturn = await getPersonalStatsData(playerId);
+        if (statsReturn != null) {
+          console.log(statsReturn)
           this.stats = {
-            timeplayed: stats.timePlayed,
-            matchs_registered: stats.matchs_registered,
-            frequent_Partner: stats.frequentPartner,
-            bestTime: stats.bestTime,
+            timeplayed: statsReturn.timePlayed,
+            matchs_registered: statsReturn.matchs_registered,
+            frequent_Partner: statsReturn.frequentPartner,
+            bestTime: statsReturn.bestTime,
           };
         }
         else {

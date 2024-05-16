@@ -50,7 +50,7 @@
         <v-menu v-if="logged" open-on-hover offset-y bottom class="custom-menu">
           <template v-slot:activator="{ props }">
             
-            <v-btn class="black-layouts white-colors" v-bind="props">
+            <v-btn style="justify-content: space-between;" class="black-layouts white-colors" v-bind="props">
               <p class="secondfont white-colors">{{ this.username }}</p><v-icon icon="$menu" size="x-large"></v-icon>
             </v-btn>
           </template>

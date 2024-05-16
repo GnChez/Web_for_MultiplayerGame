@@ -21,23 +21,22 @@ function downloadGame(req, res, next) {
 
 function getPersonalStatsData(req, res, next) {
   const userId = req.params.id;
-  return new Promise((resolve, reject) => {
     pool.getConnection((error, connection) => {
       if (error) {
-        reject(error);
-        return;
+        return next(error);
       }
       const personalData = {};
       connection.query(
         `SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(M.time))) as timePlayed, COUNT(M.id) as matchs_registered FROM \`MATCH\` M WHERE M.id_host = ? OR M.id_client = ?`,
         [userId, userId],
         (errorQuery, results) => {
-          connection.release();
+          
           if (errorQuery) {
-            reject(errorQuery);
+            connection.release();
+            return next(errorQuery);
           } else {
-            if (results.matchs_registered > 0) {
-              console.log(results[0]);
+            console.log(results[0])
+            if (results[0].matchs_registered > 0) {
               const timeParts = results[0].timePlayed.split(":");
               const hours = parseInt(timeParts[0], 10);
               const minutes = parseInt(timeParts[1], 10);
@@ -45,6 +44,10 @@ function getPersonalStatsData(req, res, next) {
               const totalSeconds = hours * 3600 + minutes * 60 + seconds;
               personalData.timePlayed = totalSeconds;
               personalData.matchs_registered = results[0].matchs_registered;
+            }
+            else {
+              personalData.timePlayed = 0;
+              personalData.matchs_registered = 0;
             }
           }
         }
@@ -58,9 +61,9 @@ function getPersonalStatsData(req, res, next) {
         LIMIT 1`,
         [userId, userId],
         (errorQuery, results) => {
-          connection.release();
           if (errorQuery) {
-            reject(errorQuery);
+            connection.release();
+            return next(errorQuery);
           } else {
             console.log('userId:', userId);
             console.log(results[0])
@@ -68,6 +71,9 @@ function getPersonalStatsData(req, res, next) {
               if (results[0].gamesPlayed > 0) {
                 personalData.frequentPartner = results[0].frequentPartner;
               }
+            }
+            else {
+              personalData.frequentPartner = "Undefined";
             }
           }
         }
@@ -80,18 +86,21 @@ function getPersonalStatsData(req, res, next) {
         (errorQuery, results) => {
           connection.release();
           if (errorQuery) {
-            reject(errorQuery);
+            return next(errorQuery);
           } else {
             if (results[0].timesPlayed > 0) {
               personalData.bestTime = results[0].bestTime;
             }
+            else {
+              personalData.bestTime = "Undefined";
+            
+            }
             console.log(personalData);
             res.json(personalData);
-            resolve(personalData);
           }
         }
       );
     });
-  });
+  
 }
 module.exports = { downloadGame, getPersonalStatsData };

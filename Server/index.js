@@ -22,10 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(cors(corsOptions));
 
-module.exports = {
-  SERVER_URL: "http://localhost",
-  port: process.env.PORT || 3666
-};
+
 const port = process.env.PORT || 3666;
 
 const server = http.createServer(app);

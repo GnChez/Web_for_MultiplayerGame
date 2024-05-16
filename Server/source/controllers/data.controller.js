@@ -36,7 +36,8 @@ function getPersonalStatsData(req, res, next) {
           if (errorQuery) {
             reject(errorQuery);
           } else {
-            {
+            if (results.matchs_registered > 0) {
+              console.log(results[0]);
               const timeParts = results[0].timePlayed.split(":");
               const hours = parseInt(timeParts[0], 10);
               const minutes = parseInt(timeParts[1], 10);
@@ -61,12 +62,18 @@ function getPersonalStatsData(req, res, next) {
           if (errorQuery) {
             reject(errorQuery);
           } else {
-            personalData.frequentPartner = results[0].frequentPartner;
+            console.log('userId:', userId);
+            console.log(results[0])
+            if (results[0] != null) {
+              if (results[0].gamesPlayed > 0) {
+                personalData.frequentPartner = results[0].frequentPartner;
+              }
+            }
           }
         }
       );
       connection.query(
-        `SELECT MIN(M.time) as bestTime 
+        `SELECT MIN(M.time) as bestTime, COUNT(*) as timesPlayed 
          FROM \`MATCH\` M 
          WHERE M.id_host = ? OR M.id_client = ?`,
         [userId, userId],
@@ -75,7 +82,9 @@ function getPersonalStatsData(req, res, next) {
           if (errorQuery) {
             reject(errorQuery);
           } else {
-            personalData.bestTime = results[0].bestTime;
+            if (results[0].timesPlayed > 0) {
+              personalData.bestTime = results[0].bestTime;
+            }
             console.log(personalData);
             res.json(personalData);
             resolve(personalData);

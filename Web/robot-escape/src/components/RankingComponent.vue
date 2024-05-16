@@ -182,10 +182,10 @@ export default {
       bar_stats: 0,
       auth: false,
       stats: {
-        timeplayed: "14:30:00",
-        matchs_registered: 3,
-        frequent_Partner: "John Doe",
-        bestTime: "00:30:00",
+        timeplayed: 0,
+        matchs_registered: 0,
+        frequent_Partner: "Undefined",
+        bestTime: "Undefined",
       },
 
       datapack: [],
@@ -215,12 +215,23 @@ export default {
     async getPersonalStatsData(playerId) {
       try {
         const stats = await getPersonalStatsData(playerId);
-        this.stats = {
-          timeplayed: stats.timePlayed,
-          matchs_registered: stats.matchs_registered,
-          frequent_Partner: stats.frequentPartner,
-          bestTime: stats.bestTime,
-        };
+        if (this.stats != null) {
+          console.log(this.stats)
+          this.stats = {
+            timeplayed: stats.timePlayed,
+            matchs_registered: stats.matchs_registered,
+            frequent_Partner: stats.frequentPartner,
+            bestTime: stats.bestTime,
+          };
+        }
+        else {
+          this.stats = {
+            timeplayed: 0,
+            matchs_registered: 0,
+            frequent_Partner: "Undefined",
+            bestTime: "Undefined",
+          }
+        }
       } catch (error) {
         console.error("Failed to get personal stats:", error);
       }

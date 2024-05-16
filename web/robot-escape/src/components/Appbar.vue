@@ -51,7 +51,7 @@
           <template v-slot:activator="{ props }">
             
             <v-btn style="justify-content: space-between;" class="black-layouts white-colors" v-bind="props">
-              <p class="secondfont white-colors">{{ this.username }}</p><v-icon icon="$menu" size="x-large"></v-icon>
+              <p class="secondfont white-colors">{{ this.username }}</p><v-icon style="margin-left: 10px;" icon="$menu" size="x-large"></v-icon>
             </v-btn>
           </template>
           <v-list class="text-center gray-layouts menu-divider custom-list">

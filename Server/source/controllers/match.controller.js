@@ -181,8 +181,7 @@ async function getTopMatches(req, res, next) {
         JOIN \`MATCH_ROOM\` MR ON M.id = MR.id_match 
         JOIN \`ROOM\` R ON MR.id_room = R.id
         WHERE M.completed = 1
-        ORDER BY M.time ASC, S.order ASC, R.id ASC
-        LIMIT 10`,
+        ORDER BY M.time ASC, S.order ASC, R.id ASC`,
         (errorQuery, results) => {
           connection.release(); // Always release the connection after usage
           if (errorQuery) {

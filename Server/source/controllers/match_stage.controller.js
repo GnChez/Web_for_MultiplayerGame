@@ -66,7 +66,9 @@ async function getMatchStageDataByStageId(req, res, next) {
 
 async function enterStage(req, res, next) {
   let data = req.body;
+  console.log(data)
   try {
+
     const match = await getMatchFromId(data.id_match);
     const stage = await getStageFromId(data.id_stage);
     if (match.length == 0 || stage.length == 0) {
@@ -87,6 +89,7 @@ async function enterStage(req, res, next) {
           if (errorQuery) {
             return next(errorQuery);
           }
+          console.log("Stage entered successfully, data kept in database.")
           res.json(results); 
         }
       );
@@ -118,6 +121,7 @@ function sumTimes(timeStrings) {
 
 async function endStage(req, res, next) {
   let data = req.body;
+  console.log(data)
   const times = data.rooms.map(room => room.time);
   let timeComplete = sumTimes(times);
   pool.getConnection((error, connection) => {

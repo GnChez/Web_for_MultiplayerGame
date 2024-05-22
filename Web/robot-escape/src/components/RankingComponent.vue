@@ -254,7 +254,7 @@ export default {
         case 3:
           return '🥉';
         default:
-          return '🏅';
+          return position;
       }
     },
     especifico(match) {

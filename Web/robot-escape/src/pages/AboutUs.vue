@@ -29,8 +29,8 @@ export default {
                         header: "Our Games",
                         content: "To date, we have developed two titles that showcase our commitment to quality and innovation:",
                         subcontent: [
-                            "Son-Bis: A mobile game that offers a unique blend of rhythm and puzzle elements, designed to provide a quick but challenging escape for players of all ages. With its intuitive gameplay and captivating soundtrack, Son-Bis has found a special place in the hearts of mobile gamers.",
-                            "Robot Escape: Our latest venture into the realm of PC and consoles. This open-world action-adventure game invites players to explore a vast and dynamic universe, embarking on a journey filled with intense challenges and rich storytelling. Robot Escape exemplifies our ambition to create immersive worlds that players can lose themselves in."
+                            "Son-Bis: A mobile game that offers a unique blend of shooting and 2D elements, designed to provide a quick but challenging escape for players of all ages. With its intuitive gameplay and captivating soundtrack, Son-Bis has found a special place in the hearts of mobile gamers.",
+                            "Robot Escape: Our latest venture into the realm of PC and consoles. This 3D puzzle-adventure game invites players to explore a vast and dynamic number of rooms, embarking on a journey filled with intense challenges and puzzles. Robot Escape exemplifies our ambition to create immersive challenges that players can lose themselves in."
                         ]
                     },
                     {

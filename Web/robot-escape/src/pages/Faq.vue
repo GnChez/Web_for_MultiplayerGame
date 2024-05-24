@@ -28,12 +28,12 @@ export default {
           {
             question: "On which platforms is Robot Escape available?",
             answer:
-              "Robot Escape is currently available on PC, PlayStation, Xbox, and Nintendo Switch.",
+              "Robot Escape is currently available on PC and consoles.",
           },
           {
             question: "What is the main objective of the game?",
             answer:
-              "The main objective of Robot Escape is to solve the puzzles of each stage while cooperating with another player to navigate through the industrial complex.",
+              "The main objective of Robot Escape is to solve the puzzles of each stage while cooperating with another player to navigate through the main stage.",
           },
           {
             question: "Is there multiplayer in Robot Escape?",
@@ -43,18 +43,18 @@ export default {
           {
             question: "How long does the main storyline last?",
             answer:
-            "The duration of the main story can vary depending on the player's play style. On average, it will initially take about [X] hours to complete. However, the development team is continuously updating the game with new additional content, offering new experiences and challenges that can extend this time.",
+            "The duration of the main story can vary depending on the player's play style. On average, it will initially take less than 2 hours to complete. However, the development team is continuously updating the game with new additional content, offering new experiences and challenges that can extend this time.",
           },
           {
             question:
               "Is there additional content after completing the main story?",
             answer:
-              "Yes, Robot Escape offers additional content in the form of side missions, challenges, and events that players can complete after finishing the main story.",
+              "Yes, Robot Escape offers the Time Trial mode to test our speed solving puzzles.",
           },
           {
             question: "Can I customize my character in Robot Escape?",
             answer:
-              "No, in Robot Escape players cannot customize their characters, but they can play as one of the two robots in the game.",
+              "No, in Robot Escape players cannot customize their characters, but they can play as one of the main story robots in the game.",
           },
           {
             question: "Is there an age requirement to play Robot Escape?",

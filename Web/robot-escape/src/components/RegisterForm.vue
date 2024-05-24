@@ -50,7 +50,7 @@
                 <v-stepper-content step="1" v-if="step === 1">
                   <v-card-text>
                     <div class="success-message"></div>
-                    <v-form>
+                    <v-form @submit.prevent="verifyNameAndProceed">
                       <v-text-field
                         class="secondfont"
                         id="email"
@@ -67,7 +67,7 @@
                         <v-card-actions class="centered">
                           <v-btn
                             class="enter-button centered"
-                            @click="verifyEmailAndProceed()"
+                            type="submit"
                             :disabled="loading"
                             >NEXT</v-btn
                           >
@@ -90,7 +90,7 @@
                 </v-stepper-content>
                 <v-stepper-content step="2" v-if="step === 2">
                   <v-card-text>
-                    <v-form>
+                    <v-form @submit.prevent="verifyNameAndProceed">
                       <v-text-field
                         class="secondfont"
                         v-model="name"
@@ -119,7 +119,7 @@
                           >
                           <v-btn
                             class="enter-button centered"
-                            @click="verifyNameAndProceed()"
+                            type="submit"
                             :disabled="loading"
                             >NEXT</v-btn
                           >
@@ -130,7 +130,7 @@
                 </v-stepper-content>
                 <v-stepper-content step="3" v-if="step === 3">
                   <v-card-text>
-                    <v-form>
+                    <v-form @submit.prevent="verifyUserDataAndProceed">
                       <v-text-field
                         class="secondfont"
                         v-model="username"
@@ -176,7 +176,7 @@
                         >
                         <v-btn
                           class="enter-button centered"
-                          @click="verifyUserDataAndProceed()"
+                          type="submit"
                           >REGISTER</v-btn
                         >
                       </v-card-actions>

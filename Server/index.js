@@ -16,6 +16,37 @@ require('dotenv').config();
 
 
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerAutoGen = require('swagger-autogen')();
+const swaggerOutput = './swagger_output.json';
+const endpointFiles = ["./index.js"];
+const doc = {
+  info: {
+    version: '',            // by default: '1.0.0'
+    title: '',              // by default: 'REST API'
+    description: ''         // by default: ''
+  },
+  host: (process.env.DOMAIN || 'localhost')+':'+(process.env.PORT || 3666),   // by default: 'localhost:3000'
+  basePath: '',             // by default: '/'
+  schemes: [],              // by default: ['http']
+  consumes: [],             // by default: ['application/json']
+  produces: [],             // by default: ['application/json']
+  tags: [                   // by default: empty Array
+    {
+      name: '',             // Tag name
+      description: ''       // Tag description
+    },
+    // { ... }
+  ],
+  securityDefinitions: {},  // by default: empty object
+  definitions: {}           // by default: empty object
+};
+swaggerAutoGen(swaggerOutput, endpointFiles, doc);
+const swaggerDocument = require('./swagger_output.json');
+
+//const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(sessionMiddleware);
 app.use(express.json());
 app.use(bodyParser.json());

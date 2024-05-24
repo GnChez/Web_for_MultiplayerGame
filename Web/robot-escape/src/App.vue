@@ -1,9 +1,9 @@
 <template>
   <v-app class= "yellow-layouts">
     <AppBar v-if="!showAppBar"/>
-    <v-main class="ma-5">
+    <div class="ma-5 fixedHeight">
       <router-view />
-    </v-main>
+    </div>
     <Footer v-if="!showFooter"/>
   </v-app>
 </template>
@@ -47,5 +47,8 @@ export default {
   @font-face {
     font-family: 'lexend-bold';
     src: url('@/assets/fonts/Lexend/static/Lexend-Bold.ttf') format('truetype');
+  }
+  .fixedHeight {
+    min-height: 80vh;
   }
 </style>

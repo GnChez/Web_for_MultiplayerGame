@@ -106,7 +106,7 @@ export default {
     this.$nextTick(() => {
       if (this.appStore.isAuthenticated) {
         this.logged = true;
-        this.username = this.appStore.getLoginInfo.data.username;
+        this.username = this.appStore.getLoginInfo.username;
       }
     });
   },

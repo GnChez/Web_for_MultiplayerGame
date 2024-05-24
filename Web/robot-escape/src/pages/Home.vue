@@ -29,13 +29,15 @@ export default {
 
 .image {
     width: 100%;
-    height: 900px; /* Specify the desired height */
+    height: 80vh; /* Specify the desired height */
+    
     background-image: url("@/assets/images/background_main_image.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
     background-attachment: fixed; /* Make the image fixed with scrolling */
     position: relative; /* Needed for absolute positioning of the button */
+    background-position-y: 64px;
 }
 
 .inside-image {

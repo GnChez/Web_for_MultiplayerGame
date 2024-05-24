@@ -1,0 +1,40 @@
+{
+  "name": "robot-escape",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@mdi/font": "7.0.96",
+    "@mdi/js": "^7.4.47",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "chart.js": "^4.4.2",
+    "core-js": "^3.34.0",
+    "delay": "^6.0.0",
+    "emailjs-com": "^3.2.0",
+    "p-debounce": "^4.0.0",
+    "pinia": "^2.1.7",
+    "roboto-fontface": "*",
+    "validator": "^13.11.0",
+    "vue": "^3.4.0",
+    "vue-chartjs": "^5.3.1",
+    "vue-picture-cropper": "^0.7.0",
+    "vue-router": "^4.3.2",
+    "vuelidate": "^0.7.7",
+    "vuetify": "^3.5.0",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "sass": "^1.60.0",
+    "vite": "^4.2.0",
+    "vite-plugin-vuetify": "^1.0.0"
+  }
+}

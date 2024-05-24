@@ -204,7 +204,7 @@ export default {
     this.auth = this.appStore.isAuthenticated;
     console.log(this.appStore.getLoginInfo);
     if (this.auth) {
-      this.getPersonalStatsData(this.appStore.getLoginInfo.data.id);
+      this.getPersonalStatsData(this.appStore.getLoginInfo.id);
     }
   },
   // ...

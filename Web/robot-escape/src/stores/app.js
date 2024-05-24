@@ -25,7 +25,8 @@ export const useAppStore = defineStore('app', {
     }
   },
   actions: {
-    setLoginInfo({firstname, lastname, username, password, email}) {
+    setLoginInfo({ id,firstname, lastname, username, password, email}) {
+      this.loginInfo.id = id;
       this.loginInfo.firstname = firstname;
       this.loginInfo.lastname = lastname;
       this.loginInfo.username = username;
@@ -48,7 +49,7 @@ export const useAppStore = defineStore('app', {
       return new Promise((resolve, reject) => {
         login(this.$state.loginInfo)
                 .then((data) => {
-                  this.$state.loginInfo = data;
+                  this.$state.loginInfo = data.data;
                   this.loading = false;
                   console.log(data)
                   if (data.data != null) {

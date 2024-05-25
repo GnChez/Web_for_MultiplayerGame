@@ -50,7 +50,7 @@
                 <v-stepper-content step="1" v-if="step === 1">
                   <v-card-text>
                     <div class="success-message"></div>
-                    <v-form @submit.prevent="verifyNameAndProceed">
+                    <v-form @submit.prevent="verifyEmailAndProceed">
                       <v-text-field
                         class="secondfont"
                         id="email"

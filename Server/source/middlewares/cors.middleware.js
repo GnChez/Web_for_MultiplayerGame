@@ -1,5 +1,5 @@
 const corsOptions = {
-    origin: ["http://robot-escape.dam.inspedralbes.cat", "http://localhost:3666", "http://robot-escape.dam.inspedralbes.cat:3666", "http://localhost:3000"],
+    origin: ["http://robot-escape.dam.inspedralbes.cat", "http://localhost:3666", "http://robot-escape.dam.inspedralbes.cat:3666", "http://localhost:3000","https://web-for-multiplayergame.onrender.com"],
     credentials: true,
     methods: ['GET', 'POST', 'PUT','DELETE'],
     exposedHeaders: ['set-cookie', 'ajax-redirect'],

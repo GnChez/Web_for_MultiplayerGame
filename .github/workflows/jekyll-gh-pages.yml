@@ -43,7 +43,7 @@ jobs:
           # Set always-auth in npmrc.
           always-auth: false
           # File containing the version Spec of the version to use.  Examples: package.json, .nvmrc, .node-version, .tool-versions.
-          node-version-file: package.json
+          node-version-file: Web/package.json
           # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
           cache: npm
           # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.

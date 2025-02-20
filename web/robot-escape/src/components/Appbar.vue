@@ -17,7 +17,7 @@
             :ripple="false"
             class="black-layouts white-colors"
           >
-            <h2>ROBOT ESCAPE</h2>
+            <h2>ROBOT ESCAPE </h2>
           </v-btn>
         </div>
 

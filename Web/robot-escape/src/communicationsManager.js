@@ -1,4 +1,4 @@
-export const SERVER_URL = "http://localhost:3666"
+export const SERVER_URL = "https://web-for-multiplayergame-server.onrender.com"
 
 export async function downloadImage(formData) {
     const response = await fetch(`${SERVER_URL}/users/downloadImage`, {

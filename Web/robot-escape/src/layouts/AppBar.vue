@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import bar from '@/components/Appbar.vue';
+import Appbar from '@/components/Appbar.vue';
 export default {
 name: 'AppBar',
 components: {
-  bar
+  bar: Appbar
 },
 // Add any necessary component logic here
 }

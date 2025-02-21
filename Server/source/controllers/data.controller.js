@@ -12,6 +12,7 @@ const pool = mysql.createPool({
 
 function downloadGame(req, res, next) {
   const ruta = path.join(__dirname, "../../game/Robot Escape.txt");
+  console.log(ruta);  
   res.download(ruta, function (err) {
     if (err) {
       console.log(err);

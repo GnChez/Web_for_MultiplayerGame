@@ -7,7 +7,7 @@ const sessionMiddleware = session({
     saveUninitialized: true,
     cookie: {
         secure: false,
-        httpOnly: true,
+        httpOnly: false,
         domain: process.env.DOMAIN || "localhost",
         path: "/",
         maxAge: 3600000,

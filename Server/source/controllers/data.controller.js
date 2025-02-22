@@ -4,10 +4,10 @@ const mysql = require("mysql2");
 
 const pool = mysql.createPool({
   connectionLimit: 100, // Número máximo de conexiones en el pool
-  host: "dam.inspedralbes.cat",
-  user: "a22osczapmar_User1234",
-  password: "User1234",
-  database: "a22osczapmar_puzzleGame",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 function downloadGame(req, res, next) {

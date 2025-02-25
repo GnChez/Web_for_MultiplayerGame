@@ -193,6 +193,105 @@ export async function getPersonalStatsData(playerId) {
   }
 }
 
+export async function getTopMatches2() {
+  const data = [
+      {
+        "id": 1,
+        "complete_date": "2024-02-25T14:30:00Z",
+        "time": "00:04:30",
+        "id_host": 101,
+        "host_username": "HostPlayer1",
+        "id_client": 201,
+        "client_username": "ClientPlayer1",
+        "stages": [
+          {
+            "id": 11,
+            "name": "Stage 1",
+            "time": "00:00:45",
+            "rooms": [
+              { "id": 111, "name": "Room A", "order": 1, "time": "00:00:15" },
+              { "id": 112, "name": "Room B", "order": 2, "time": "00:00:20" },
+              { "id": 113, "name": "Room C", "order": 3, "time": "00:00:10" }
+            ]
+          },
+          {
+            "id": 12,
+            "name": "Stage 2",
+            "time": "00:01:30",
+            "rooms": [
+              { "id": 114, "name": "Room D", "order": 1, "time": "00:00:30" },
+              { "id": 115, "name": "Room E", "order": 2, "time": "00:00:40" },
+              { "id": 116, "name": "Room F", "order": 3, "time": "00:00:20" }
+            ]
+          },
+          {
+            "id": 13,
+            "name": "Stage 3",
+            "time": "00:02:15",
+            "rooms": [
+              { "id": 117, "name": "Room G", "order": 1, "time": "00:00:50" },
+              { "id": 118, "name": "Room H", "order": 2, "time": "00:00:45" },
+              { "id": 119, "name": "Room I", "order": 3, "time": "00:00:40" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "complete_date": "2024-02-26T15:00:00Z",
+        "time": "00:06:00",
+        "id_host": 102,
+        "host_username": "HostPlayer2",
+        "id_client": 202,
+        "client_username": "ClientPlayer2",
+        "stages": [
+          {
+            "id": 11,
+            "name": "Stage 1",
+            "time": "00:02:00",
+            "rooms": [
+              { "id": 120, "name": "Room A", "order": 1, "time": "00:01:20" },
+              { "id": 121, "name": "Room B", "order": 2, "time": "00:00:25" },
+              { "id": 122, "name": "Room C", "order": 3, "time": "00:00:15" }
+            ]
+          },
+          {
+            "id": 12,
+            "name": "Stage 2",
+            "time": "00:01:30",
+            "rooms": [
+              { "id": 123, "name": "Room D", "order": 1, "time": "00:00:40" },
+              { "id": 124, "name": "Room E", "order": 2, "time": "00:00:30" },
+              { "id": 125, "name": "Room F", "order": 3, "time": "00:00:20" }
+            ]
+          },
+          {
+            "id": 13,
+            "name": "Stage 3",
+            "time": "00:02:15",
+            "rooms": [
+              { "id": 117, "name": "Room G", "order": 1, "time": "00:00:50" },
+              { "id": 118, "name": "Room H", "order": 2, "time": "00:00:45" },
+              { "id": 119, "name": "Room I", "order": 3, "time": "00:00:40" }
+            ]
+          }
+        ]
+      }
+    ]
+  
+  
+  
+  return data  
+}
 
+export async function getPersonalStatsData2(playerId) {
+  const data =  {
+    timePlayed: 2,
+    matchs_registered: 2,
+    frequentPartner: "Player 2",
+    bestTime: "01:30",
+  }
+  return data
+}
 
 //REGENERAR CONTRASEÑA

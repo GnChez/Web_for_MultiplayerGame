@@ -160,8 +160,8 @@ import {
 } from "chart.js";
 import { colors } from "../stackcolors";
 import {
-  getTopMatches,
-  getPersonalStatsData,
+  getTopMatches2,
+  getPersonalStatsData2,
 } from "@/communicationsManager.js";
 import { useAppStore } from "@/stores/app";
 
@@ -203,9 +203,9 @@ export default {
   mounted() {
     this.auth = this.appStore.isAuthenticated;
     console.log(this.appStore.getLoginInfo);
-    if (this.auth) {
+    //if (this.auth) {
       this.getPersonalStatsData(this.appStore.getLoginInfo.id);
-    }
+    //}
   },
   // ...
   created() {
@@ -214,7 +214,7 @@ export default {
   methods: {
     async getPersonalStatsData(playerId) {
       try {
-        const statsReturn = await getPersonalStatsData(playerId);
+        const statsReturn = await getPersonalStatsData2(playerId);
         if (statsReturn != null) {
           console.log(statsReturn)
           this.stats = {
@@ -238,7 +238,7 @@ export default {
     },
     async getTopMatches() {
       try {
-        const matches = await getTopMatches();
+        const matches = await getTopMatches2();
         this.matches = matches;
         console.log(this.matches);
       } catch (error) {

@@ -5,7 +5,7 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "robot-escape.dam.inspedralbes.cat:3666",
+  "host": "https://web-for-multiplayergame.onrender.com:3666",
   "basePath": "",
   "tags": [
     {

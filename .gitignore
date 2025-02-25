@@ -1,3 +1,4 @@
 /node_modules
 [Ss]erver/node_modules
 *.exe
+.env*
